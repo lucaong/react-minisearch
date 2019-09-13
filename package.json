@@ -1,0 +1,63 @@
+{
+  "name": "react-minisearch",
+  "version": "2.1.1",
+  "description": "React integration for MiniSearch",
+  "main": "index.js",
+  "repository": "https://github.com/lucaong/react-minisearch",
+  "author": "Luca Ongaro",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/enzyme": "^3.10.3",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.18",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "jest": "^24.9.0",
+    "jest-environment-enzyme": "^7.1.1",
+    "jest-enzyme": "^7.1.1",
+    "minisearch": "^2.1.1",
+    "parcel": "^1.12.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "build": "yarn build-types && parcel build --no-minify src/react-minisearch.tsx",
+    "build-types": "tsc --declaration --emitDeclarationOnly",
+    "prepublishOnly": "yarn test",
+    "prepublish": "yarn build",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "lintfix": "tslint -c tslint.json --fix 'src/**/*.{ts,tsx}'"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "minisearch": "^2.1.1",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "\\.test\\.(ts|tsx|js)$",
+    "setupFilesAfterEnv": [
+      "jest-enzyme",
+      "<rootDir>src/testSetup/jest.ts"
+    ],
+    "testEnvironment": "enzyme"
+  },
+  "files": ["/src/**/*", "dist/**/*", "lib/react-minisearch.d.ts", "README.md"],
+  "types": "/lib/react-minisearch.d.ts"
+}

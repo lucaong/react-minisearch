@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "outDir": "./lib"
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+}
