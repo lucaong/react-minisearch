@@ -148,9 +148,8 @@ const MyComponent = () => (
 
 ### Provided props:
 
-No matter which method you use (`useMiniSearch`, `withMiniSearch`, or
-`WithMiniSearch`), the complete set of props that are provided by
-`react-minisearch` are:
+The complete set of props that are provided by `react-minisearch` is the same
+for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `search`: function to be called in order to perform the search
 
