@@ -26,7 +26,7 @@ There are three main ways to use `react-minisearch`: the `useMiniSearch` hook, t
 
 #### Using the useMiniSearch hook:
 
-```javascript
+```jsx
 import { useMiniSearch } from 'react-minisearch'
 
 // Documents to search amongst
@@ -65,7 +65,7 @@ const MyComponent = () => {
 
 #### Using the withMiniSearch higher-order component:
 
-```javascript
+```jsx
 import { withMiniSearch } from 'react-minisearch'
 
 const MyComponent = ({ search, searchResults }) => {
@@ -105,7 +105,7 @@ const MyComponentWithSearch = withSearch(documents, miniSearchOptions, MyCompone
 
 #### Using the WithMiniSearch wrapper component:
 
-```javascript
+```jsx
 import { WithMiniSearch } from 'react-minisearch'
 
 // Documents to search amongst
