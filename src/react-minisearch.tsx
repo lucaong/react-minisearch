@@ -25,7 +25,7 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
 
   useEffect(() => {
     addAll(documents)
-  }, [documents])
+  }, [])
 
   const search = (query: string, searchOptions?: SearchOptions) => {
     const results = miniSearch.search(query, searchOptions)
