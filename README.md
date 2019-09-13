@@ -29,17 +29,17 @@ There are three main ways to use `react-minisearch`: the `useMiniSearch` hook, t
 ```javascript
 import { useMiniSearch } from 'react-minisearch'
 
+// Documents to search amongst
+const documents = [
+  { id: 1, name: 'Agata' },
+  { id: 2, name: 'Finn' },
+  // ...etc
+]
+
+// See MiniSearch for documentation on options
+const miniSearchOptions = { fields: ['name'] }
+
 const MyComponent = () => {
-  // Documents to search amongst
-  const documents = [
-    { id: 1, name: 'Agata' },
-    { id: 2, name: 'Finn' },
-    // ...etc
-  ]
-
-  // See MiniSearch for documentation on options
-  const miniSearchOptions = { fields: ['name'] }
-
   const { search, searchResults } = useMiniSearch(documents, miniSearchOptions)
 
   const handleSearchChange = (event) => {
