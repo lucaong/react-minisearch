@@ -151,27 +151,30 @@ const MyComponent = () => (
 The complete set of props that are provided by `react-minisearch` is the same
 for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
-  - `search`: function to be called in order to perform the search
+  - `search(query: string, searchOptions?: SearchOptions) => void`: function to be called in order to perform the search
 
-  - `searchResults`: array of search results, or `null` when no search was performed or search was cleared
+  - `searchResults: SearchResult[] | null`: array of search results, or `null` when no search was performed or search was cleared
 
-  - `clearSearch`: function to be called in order to clear the search (setting `searchResults` to `null`)
+  - `clearSearch() => void`: function to be called in order to clear the search (setting `searchResults` to `null`)
 
-  - `autoSuggest`: function to be called in order to obtain auto suggestions
+  - `autoSuggest(query: string, searchOptions?: SearchOptions) => void`: function to be called in order to obtain auto suggestions
 
-  - `suggestions`: array of auto suggestions, or `null` when auto suggestions are not used or cleared
+  - `suggestions: Suggestion[] | null`: array of auto suggestions, or `null` when auto suggestions are not used or cleared
 
-  - `clearSuggestions`: function to be called in order to clear the suggestions (setting `suggestions` to `null`)
+  - `clearSuggestions() => void`: function to be called in order to clear the suggestions (setting `suggestions` to `null`)
 
-  - `add`: function to add a new document to the index
+  - `add(document: object) => void`: function to add a new document to the index
 
-  - `addAll`: function to add several new documents to the index in bulk
+  - `addAll(documents: object[]) => void`: function to add several new documents to the index in bulk
 
-  - `addAllAsync`: same as `addAll`, but works asynchronously and in batches to avoid blocking the UI
+  - `addAllAsync(documents: object[], options?: object[]) => Promise<void>`: same as `addAll`, but works asynchronously and in batches to avoid blocking the UI
 
-  - `remove`: function to remove a document from the index
+  - `remove(document: object) => void`: function to remove a document from the index
 
-  - `isIndexing`: boolean, set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
+  - `removeById(id: any) => void`: function to remove a document from the index by ID
+
+  - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
 
 Many of these props correspond to methods on the `MiniSearch` class, as
-documented in the [MiniSearch library](https://github.com/lucaong/minisearch)
+documented in the [MiniSearch
+library](https://github.com/lucaong/minisearch).

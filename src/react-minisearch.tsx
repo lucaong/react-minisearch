@@ -10,6 +10,7 @@ export interface UseMiniSearch {
   addAll: (documents: object[]) => void,
   addAllAsync: (documents: object[], options?: { chunkSize?: number }) => Promise<void>,
   remove: (document: object) => void,
+  removeById: (id: any) => void,
   isIndexing: boolean,
   clearSearch: () => void,
   clearSuggestions: () => void,
@@ -68,9 +69,17 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
   }
 
   const remove = (document: object) => {
-    delete documentById[document[idField]]
-    setDocumentById(documentById)
     miniSearch.remove(document)
+    setDocumentById(removeFromMap(documentById, document[idField]))
+  }
+
+  const removeById = (id: any) => {
+    const document = documentById[id]
+    if (document == null) {
+      throw new Error(`react-minisearch: document with id ${id} does not exist in the index`)
+    }
+    miniSearch.remove(document)
+    setDocumentById(removeFromMap(documentById, id))
   }
 
   const clearSearch = () => {
@@ -90,10 +99,17 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     addAll,
     addAllAsync,
     remove,
+    removeById,
     isIndexing,
     clearSearch,
     clearSuggestions,
   }
+}
+
+function removeFromMap (map: object, keyToRemove: any) {
+  const newMap = Object.assign({}, map)
+  delete newMap[keyToRemove]
+  return newMap
 }
 
 export function withMiniSearch (

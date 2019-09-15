@@ -29,6 +29,7 @@ const ChildComponent = ({
   addAll,
   addAllAsync,
   remove,
+  removeById,
   clearSearch,
   clearSuggestions,
 }: UseMiniSearch) => {
@@ -58,6 +59,9 @@ const ChildComponent = ({
       </button>
       <button className='remove' onClick={() => remove(documentToRemove)}>
         Remove
+      </button>
+      <button className='remove-by-id' onClick={() => removeById(documentToRemove.id)}>
+        Remove by Id
       </button>
       <button className='clear' onClick={() => { clearSearch(); clearSuggestions() }}>
         Clear
@@ -148,6 +152,16 @@ const testComponent = (Component: any) => {
     const wrap = mount(<Component {...props} />)
 
     wrap.find('button.remove').simulate('click')
+    wrap.find('input.search').simulate('change', { target: { value: 'natura' } })
+
+    const items = wrap.update().find('.results li')
+    expect(items).not.toExist()
+  })
+
+  it('removes a document by id', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.remove-by-id').simulate('click')
     wrap.find('input.search').simulate('change', { target: { value: 'natura' } })
 
     const items = wrap.update().find('.results li')
