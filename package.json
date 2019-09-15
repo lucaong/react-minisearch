@@ -1,6 +1,6 @@
 {
   "name": "react-minisearch",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "React integration for MiniSearch",
   "main": "index.js",
   "repository": "https://github.com/lucaong/react-minisearch",
@@ -58,6 +58,11 @@
     ],
     "testEnvironment": "enzyme"
   },
-  "files": ["/src/**/*", "dist/**/*", "lib/react-minisearch.d.ts", "README.md"],
+  "files": [
+    "/src/**/*",
+    "dist/**/*",
+    "lib/react-minisearch.d.ts",
+    "README.md"
+  ],
   "types": "/lib/react-minisearch.d.ts"
 }
