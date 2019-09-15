@@ -171,7 +171,7 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `remove(document: object) => void`: function to remove a document from the index
 
-  - `removeById(id: any) => void`: function to remove a document from the index by ID
+  - `removeById(id: any) => void`: function to remove a document from the index by its id
 
   - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
 
