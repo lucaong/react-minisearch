@@ -3,7 +3,11 @@
     "jsx": "react",
     "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "./lib"
+    "outDir": "./lib",
+    "lib": ["es6", "dom", "dom.iterable"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "target": "es6"
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
