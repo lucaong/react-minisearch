@@ -2,7 +2,7 @@
   "name": "react-minisearch",
   "version": "2.1.1",
   "description": "React integration for MiniSearch",
-  "main": "index.js",
+  "main": "dist/react-minisearch.js",
   "repository": "https://github.com/lucaong/react-minisearch",
   "author": "Luca Ongaro",
   "license": "MIT",
