@@ -129,5 +129,5 @@ export interface WithMiniSearchProps {
   children: (props: UseMiniSearch) => JSX.Element | null,
 }
 
-export const WithMiniSearch = ({ documents, options, children }: WithMiniSearchProps) =>
+export const WithMiniSearch: React.FC<WithMiniSearchProps> = ({ documents, options, children }) =>
   children(useMiniSearch(documents, options))
