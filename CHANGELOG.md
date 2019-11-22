@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.1.3
+
+  - [bugfix] Switch from Parcel to Webpack to fix importing issues
+
 ## v2.1.2
 
   - Improve TypeScript type of React component
