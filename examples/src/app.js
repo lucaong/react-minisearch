@@ -2,26 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import fetch from 'unfetch'
 import { useMiniSearch } from 'react-minisearch'
 
-const withDocuments = (Component) => {
-  const WithDocuments = (props) => {
-    const [documents, setDocuments] = useState(null)
-
-    useEffect(() => {
-      fetch('billboard_1965-2015.json')
-        .then(response => response.json())
-        .then((documents) => { setDocuments(documents) })
-    }, [])
-
-    if (documents == null) {
-      return <Loader />
-    } else {
-      return <Component {...props} documents={documents} />
-    }
-  }
-
-  return WithDocuments
-}
-
 const App = ({ documents }) => {
   const {
     search,
@@ -45,6 +25,7 @@ const App = ({ documents }) => {
     filter: null
   })
 
+  // Perform search when the query changes
   useEffect(() => {
     if (query.length > 1) {
       search(query, searchOptions)
@@ -53,6 +34,7 @@ const App = ({ documents }) => {
     }
   }, [query, searchOptions])
 
+  // Manage selection of auto-suggestions
   useEffect(() => {
     if (selectedSuggestion >= 0) {
       const suggestionItem = suggestions[selectedSuggestion]
@@ -62,6 +44,7 @@ const App = ({ documents }) => {
     }
   }, [selectedSuggestion])
 
+  // Update the search options if the year range is changed
   useEffect(() => {
     if (fromYear <= 1965 && toYear >= 2015) {
       setSearchOptions({ ...searchOptions, filter: null })
@@ -77,6 +60,8 @@ const App = ({ documents }) => {
   const searchInputRef = useRef(null)
 
   const deselectSuggestion = () => selectSuggestion(-1)
+
+  const topSuggestions = suggestions ? suggestions.slice(0, 5) : []
 
   const autoSuggestOptions = {
     ...searchOptions,
@@ -96,9 +81,9 @@ const App = ({ documents }) => {
 
   const handleKeyDown = ({ which, key, keyCode }) => {
     if (key === 'ArrowDown') {
-      selectSuggestion(Math.min(selectedSuggestion + 1, suggestions.length - 1))
+      selectSuggestion(Math.min(selectedSuggestion + 1, topSuggestions.length - 1))
     } else if (key === 'ArrowUp') {
-      selectSuggestion(Math.max(0, selectedSuggestion - 1))
+      selectSuggestion(Math.max(-1, selectedSuggestion - 1))
     } else if (key === 'Enter' || key === 'Escape') {
       deselectSuggestion()
       searchInputRef.current.blur()
@@ -106,7 +91,7 @@ const App = ({ documents }) => {
   }
 
   const handleSuggestionClick = (i) => {
-    setQuery(suggestions[i].suggestion)
+    setQuery(topSuggestions[i].suggestion)
     deselectSuggestion()
   }
 
@@ -143,7 +128,7 @@ const App = ({ documents }) => {
           <Header
             onChange={handleChange} onKeyDown={handleKeyDown}
             selectedSuggestion={selectedSuggestion} onSuggestionClick={handleSuggestionClick}
-            onSearchClear={handleSearchClear} value={query} suggestions={suggestions && suggestions.slice(0, 5)}
+            onSearchClear={handleSearchClear} value={query} suggestions={topSuggestions}
             searchInputRef={searchInputRef} searchOptions={searchOptions} setSearchOption={setSearchOption}
             setFromYear={selectFromYear} setToYear={selectToYear} fromYear={fromYear} toYear={toYear}
           />
@@ -325,6 +310,27 @@ const miniSearchOptions = {
   fields: ['artist', 'title'],
   storeFields: ['year'],
   processTerm: (term, _fieldName) => (term.length <= 1 || stopWords.has(term)) ? null : term.toLowerCase()
+}
+
+// Fetch the JSON documents
+const withDocuments = (Component) => {
+  const WithDocuments = (props) => {
+    const [documents, setDocuments] = useState(null)
+
+    useEffect(() => {
+      fetch('billboard_1965-2015.json')
+        .then(response => response.json())
+        .then((documents) => { setDocuments(documents) })
+    }, [])
+
+    if (documents == null) {
+      return <Loader />
+    } else {
+      return <Component {...props} documents={documents} />
+    }
+  }
+
+  return WithDocuments
 }
 
 export default withDocuments(App)
