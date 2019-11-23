@@ -59,7 +59,9 @@ const App = ({ documents }) => {
 
   const searchInputRef = useRef(null)
 
-  const deselectSuggestion = () => selectSuggestion(-1)
+  const deselectSuggestion = () => {
+    selectSuggestion(-1)
+  }
 
   const topSuggestions = suggestions ? suggestions.slice(0, 5) : []
 
@@ -86,6 +88,7 @@ const App = ({ documents }) => {
       selectSuggestion(Math.max(-1, selectedSuggestion - 1))
     } else if (key === 'Enter' || key === 'Escape') {
       deselectSuggestion()
+      clearSuggestions()
       searchInputRef.current.blur()
     }
   }
@@ -93,15 +96,18 @@ const App = ({ documents }) => {
   const handleSuggestionClick = (i) => {
     setQuery(topSuggestions[i].suggestion)
     deselectSuggestion()
+    clearSuggestions()
   }
 
   const handleSearchClear = () => {
     setQuery('')
     deselectSuggestion()
+    clearSuggestions()
   }
 
   const handleAppClick = () => {
     deselectSuggestion()
+    clearSuggestions()
   }
 
   const setSearchOption = (option, valueOrFn) => {
