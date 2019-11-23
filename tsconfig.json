@@ -4,7 +4,6 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "outDir": "./lib",
-    "lib": ["es6", "dom", "dom.iterable"],
     "module": "es6",
     "moduleResolution": "node",
     "target": "es6"

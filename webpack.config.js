@@ -1,48 +1,58 @@
 const path = require('path');
 
 module.exports = {
-  entry: { 'react-minisearch': './src/react-minisearch.tsx' },
+  entry: './src/react-minisearch.tsx',
   devtool: 'source-map',
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
+        test: /\.(js|jsx|tsx|ts)$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-object-rest-spread']
+          }
+        }
+      }
     ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: [ '.tsx', '.ts', '.js', '.jsx' ],
   },
   optimization: {
     minimize: false
   },
   output: {
-    filename: '[name].js',
+    filename: 'react-minisearch.js',
     libraryTarget: 'umd',
-    umdNamedDefine: true,
     globalObject: 'typeof self !== \'undefined\' ? self : this',
     path: path.resolve(__dirname, 'dist'),
     library: {
       amd: 'react-minisearch',
       commonjs: 'react-minisearch',
-      root: 'react-minisearch'
-    },
-    libraryExport: 'default'
+      root: 'ReactMiniSearch'
+    }
   },
-  externals: {        
-    react: {          
-        commonjs: 'react',          
-        commonjs2: 'react',          
-        amd: 'React',          
-        root: 'React',      
-    },      
-    'minisearch': {          
-        commonjs: 'minisearch',          
-        commonjs2: 'minisearch',          
-        amd: 'MiniSearch',          
-        root: 'MiniSearch',      
-    },  
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React'
+    },
+    'react-dom': {
+      commonjs: 'react-dom',
+      commonjs2: 'react-dom',
+      amd: 'react-dom',
+      root: 'ReactDOM'
+    },
+    minisearch: {
+      commonjs: 'minisearch',
+      commonjs2: 'minisearch',
+      amd: 'minisearch',
+      root: 'MiniSearch'
+    }
   }
 }
