@@ -203,7 +203,7 @@ describe('useMiniSearch', () => {
 })
 
 describe('withMiniSearch', () => {
-  const MyComponent = withMiniSearch(documents, options, ChildComponent)
+  const MyComponent = withMiniSearch<{ otherProp: string }>(documents, options, ChildComponent)
 
   testComponent(MyComponent)
 

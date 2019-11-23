@@ -112,12 +112,12 @@ function removeFromMap (map: object, keyToRemove: any) {
   return newMap
 }
 
-export function withMiniSearch (
+export function withMiniSearch<OwnProps> (
   documents: object[],
   options: Options,
   Component: any,
-) {
-  return (props: any) => {
+): React.FC<OwnProps> {
+  return (props: OwnProps) => {
     const miniSearchProps = useMiniSearch(documents, options)
     return <Component {...miniSearchProps} {...props} />
   }
@@ -129,5 +129,7 @@ export interface WithMiniSearchProps {
   children: (props: UseMiniSearch) => JSX.Element | null,
 }
 
-export const WithMiniSearch: React.FC<WithMiniSearchProps> = ({ documents, options, children }) =>
-  children(useMiniSearch(documents, options))
+export const WithMiniSearch: React.FC<WithMiniSearchProps> = ({ documents, options, children }) => {
+  const miniSearchProps = useMiniSearch(documents, options)
+  return children(miniSearchProps)
+}
