@@ -178,3 +178,13 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 Many of these props correspond to methods on the `MiniSearch` class, as
 documented in the [MiniSearch
 library](https://github.com/lucaong/minisearch).
+
+
+## Examples
+
+Check out the `examples` directory for a complete usage example. To run the
+example app locally:
+
+  - `cd` to the `examples` directory
+  - Install dependencies with `yarn install` (or `npm install`)
+  - Run the example application with `yarn start` (or `npm run start`)
