@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.1.4
+
+  - [bugfix] Use Babel to transpile ES6
+
 ## v2.1.3
 
   - [bugfix] Switch from Parcel to Webpack to fix importing issues
