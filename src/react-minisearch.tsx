@@ -112,15 +112,23 @@ function removeFromMap (map: object, keyToRemove: any) {
   return newMap
 }
 
+function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string {
+  return Component.displayName || Component.name || 'Component'
+}
+
 export function withMiniSearch<OwnProps> (
   documents: object[],
   options: Options,
-  Component: any,
+  Component: React.ComponentType<OwnProps & UseMiniSearch>,
 ): React.FC<OwnProps> {
-  return (props: OwnProps) => {
+  const WithMiniSearch = (props: OwnProps) => {
     const miniSearchProps = useMiniSearch(documents, options)
     return <Component {...miniSearchProps} {...props} />
   }
+
+  WithMiniSearch.displayName = `WithMiniSearch(${getDisplayName(Component)})`
+
+  return WithMiniSearch
 }
 
 export interface WithMiniSearchProps {

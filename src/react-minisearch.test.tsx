@@ -212,6 +212,12 @@ describe('withMiniSearch', () => {
 
     expect(wrap.find('ChildComponent')).toHaveProp('otherProp', 'foo')
   })
+
+  it('sets the display name of the wrapped component', () => {
+    const wrap = mount(<MyComponent {...props} otherProp='foo' />)
+
+    expect(wrap.find('WithMiniSearch(ChildComponent)')).toExist()
+  })
 })
 
 describe('WithMiniSearch', () => {
