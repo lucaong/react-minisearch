@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.1.6
+
+  - Simpler packaging with `tsc` and Rollup, also reducing bundle size
+
 ## v2.1.5
 
   - Set displayName in withMiniSearch
