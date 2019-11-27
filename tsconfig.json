@@ -3,10 +3,12 @@
     "jsx": "react",
     "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "./lib",
+    "outDir": "./dist",
     "module": "es6",
     "moduleResolution": "node",
-    "target": "es6"
+    "target": "es3",
+    "declaration": true
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["node_modules", "./src/**/*.test.ts", "./src/**/*.test.tsx", "./src/testSetup/**/*"]
 }
