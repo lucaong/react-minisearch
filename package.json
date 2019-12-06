@@ -66,5 +66,5 @@
     "dist/**/*",
     "README.md"
   ],
-  "types": "/dist/react-minisearch.d.ts"
+  "types": "./dist/react-minisearch.d.ts"
 }
