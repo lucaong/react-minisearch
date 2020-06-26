@@ -14,6 +14,7 @@ export interface UseMiniSearch {
   isIndexing: boolean,
   clearSearch: () => void,
   clearSuggestions: () => void,
+  miniSearch: MiniSearch
 }
 
 export function useMiniSearch (documents: object[], options: Options): UseMiniSearch {
@@ -103,6 +104,7 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     isIndexing,
     clearSearch,
     clearSuggestions,
+    miniSearch,
   }
 }
 

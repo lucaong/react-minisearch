@@ -2,6 +2,7 @@ import { mount } from 'enzyme'
 import React, { ChangeEvent, Component } from 'react'
 import { act } from 'react-dom/test-utils'
 import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './react-minisearch'
+import MiniSearch from 'minisearch'
 
 const documents = [
   { id: 1, title: 'De Rerum Natura' },
@@ -71,6 +72,11 @@ const ChildComponent = ({
 }
 
 const testComponent = (Component: any) => {
+  it('gets a miniSearch prop with the MiniSearch instance', () => {
+    const wrap = mount(<Component {...props} />)
+    expect(wrap.find('ChildComponent')).toHaveProp('miniSearch', expect.any(MiniSearch))
+  })
+
   it('performs search', () => {
     const wrap = mount(<Component {...props} />)
     expect(wrap.find('.results li')).not.toExist()
