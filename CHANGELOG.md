@@ -4,6 +4,9 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.1.8
+  - Also pass the MiniSearch instance as a `miniSearch` prop
+
 ## v2.1.7
 
   - Fix error in TypeScript declaration file path

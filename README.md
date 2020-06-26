@@ -175,6 +175,9 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
 
+  - `miniSearch: MiniSearch`: the `MiniSearch` instance, for the (rare) cases
+    when it is necessary to use it directly
+
 Many of these props correspond to methods on the `MiniSearch` class, as
 documented in the [MiniSearch
 library](https://github.com/lucaong/minisearch).
