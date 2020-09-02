@@ -7,17 +7,17 @@ import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './
 import MiniSearch from 'minisearch'
 
 const documents = [
-  { id: 1, title: 'De Rerum Natura' },
-  { id: 2, title: 'The Selfish Gene' },
+  { uid: 1, title: 'De Rerum Natura' },
+  { uid: 2, title: 'The Selfish Gene' },
 ]
 
-const options = { fields: ['title'] }
+const options = { fields: ['title'], idField: 'uid' }
 
 const props = { documents, options, documentToAdd: null, documentsToAdd: null, documentToRemove: null }
 
-const documentToAdd = { id: 3, title: 'Pista Nera' }
+const documentToAdd = { uid: 3, title: 'Pista Nera' }
 
-const documentsToAdd = [{ id: 3, title: 'Six Easy Pieces' }, { id: 4, title: 'Six Not So Easy Pieces' }]
+const documentsToAdd = [{ uid: 3, title: 'Six Easy Pieces' }, { uid: 4, title: 'Six Not So Easy Pieces' }]
 
 const documentToRemove = documents[0]
 
@@ -63,7 +63,7 @@ const ChildComponent = ({
       <button className='remove' onClick={() => remove(documentToRemove)}>
         Remove
       </button>
-      <button className='remove-by-id' onClick={() => removeById(documentToRemove.id)}>
+      <button className='remove-by-id' onClick={() => removeById(documentToRemove.uid)}>
         Remove by Id
       </button>
       <button className='clear' onClick={() => { clearSearch(); clearSuggestions() }}>
