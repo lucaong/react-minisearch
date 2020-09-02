@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 import { mount } from 'enzyme'
 import React, { ChangeEvent, Component } from 'react'
 import { act } from 'react-dom/test-utils'
