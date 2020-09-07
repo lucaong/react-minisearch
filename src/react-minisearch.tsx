@@ -1,24 +1,24 @@
 import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, PropsWithChildren } from 'react'
 
-export interface UseMiniSearch {
-  search: (query: string, options?: SearchOptions) => void,
+export interface UseMiniSearch<T = object> {
+  search: (query: string, options?: SearchOptions<T>) => void,
   searchResults: SearchResult[] | null,
-  autoSuggest: (query: string, options?: SearchOptions) => void,
+  autoSuggest: (query: string, options?: SearchOptions<T>) => void,
   suggestions: Suggestion[] | null,
-  add: (document: object) => void,
-  addAll: (documents: object[]) => void,
-  addAllAsync: (documents: object[], options?: { chunkSize?: number }) => Promise<void>,
-  remove: (document: object) => void,
+  add: (document: T) => void,
+  addAll: (documents: T[]) => void,
+  addAllAsync: (documents: T[], options?: { chunkSize?: number }) => Promise<void>,
+  remove: (document: T) => void,
   removeById: (id: any) => void,
   isIndexing: boolean,
   clearSearch: () => void,
   clearSuggestions: () => void,
-  miniSearch: MiniSearch
+  miniSearch: MiniSearch<T>
 }
 
-export function useMiniSearch (documents: object[], options: Options): UseMiniSearch {
-  const [miniSearch] = useState(new MiniSearch(options))
+export function useMiniSearch<T = object> (documents: T[], options: Options<T>): UseMiniSearch<T> {
+  const [miniSearch] = useState(new MiniSearch<T>(options))
   const [searchResults, setSearchResults] = useState(null)
   const [suggestions, setSuggestions] = useState(null)
   const [documentById, setDocumentById] = useState({})
@@ -29,23 +29,23 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     addAll(documents)
   }, [])
 
-  const search = (query: string, searchOptions?: SearchOptions) => {
+  const search = (query: string, searchOptions?: SearchOptions<T>) => {
     const results = miniSearch.search(query, searchOptions)
     const searchResults = results.map(({ id }) => documentById[id])
     setSearchResults(searchResults)
   }
 
-  const autoSuggest = (query: string, searchOptions?: SearchOptions) => {
+  const autoSuggest = (query: string, searchOptions?: SearchOptions<T>) => {
     const suggestions = miniSearch.autoSuggest(query, searchOptions)
     setSuggestions(suggestions)
   }
 
-  const add = (document: object) => {
+  const add = (document: T) => {
     setDocumentById({ ...documentById, [document[idField]]: document })
     miniSearch.add(document)
   }
 
-  const addAll = (documents: object[]) => {
+  const addAll = (documents: T[]) => {
     const byId = documents.reduce((acc, doc) => {
       acc[doc[idField]] = doc
       return acc
@@ -55,7 +55,7 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     miniSearch.addAll(documents)
   }
 
-  const addAllAsync = (documents: object[], options?: { chunkSize?: number }) => {
+  const addAllAsync = (documents: T[], options?: { chunkSize?: number }) => {
     const byId = documents.reduce((acc, doc) => {
       acc[doc[idField]] = doc
       return acc
@@ -69,7 +69,7 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     })
   }
 
-  const remove = (document: object) => {
+  const remove = (document: T) => {
     miniSearch.remove(document)
     setDocumentById(removeFromMap(documentById, document[idField]))
   }
@@ -104,7 +104,7 @@ export function useMiniSearch (documents: object[], options: Options): UseMiniSe
     isIndexing,
     clearSearch,
     clearSuggestions,
-    miniSearch,
+    miniSearch
   }
 }
 
@@ -118,13 +118,13 @@ function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string
   return Component.displayName || Component.name || 'Component'
 }
 
-export function withMiniSearch<OwnProps> (
-  documents: object[],
-  options: Options,
-  Component: React.ComponentType<OwnProps & UseMiniSearch>,
+export function withMiniSearch<OwnProps, T = object> (
+  documents: T[],
+  options: Options<T>,
+  Component: React.ComponentType<OwnProps & UseMiniSearch<T>>,
 ): React.FC<OwnProps> {
   const WithMiniSearch = (props: OwnProps) => {
-    const miniSearchProps = useMiniSearch(documents, options)
+    const miniSearchProps = useMiniSearch<T>(documents, options)
     return <Component {...miniSearchProps} {...props} />
   }
 
@@ -133,13 +133,13 @@ export function withMiniSearch<OwnProps> (
   return WithMiniSearch
 }
 
-export interface WithMiniSearchProps {
-  documents: object[],
-  options: Options,
-  children: (props: UseMiniSearch) => JSX.Element | null,
+export interface WithMiniSearchProps<T = object> {
+  documents: T[],
+  options: Options<T>,
+  children: (props: UseMiniSearch<T>) => JSX.Element | null,
 }
 
-export const WithMiniSearch: React.FC<WithMiniSearchProps> = ({ documents, options, children }) => {
-  const miniSearchProps = useMiniSearch(documents, options)
+export const WithMiniSearch = <T, >({ documents, options, children }: PropsWithChildren<WithMiniSearchProps<T>>) => {
+  const miniSearchProps = useMiniSearch<T>(documents, options)
   return children(miniSearchProps)
 }

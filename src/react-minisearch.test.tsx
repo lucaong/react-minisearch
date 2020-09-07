@@ -3,17 +3,30 @@
 import { mount } from 'enzyme'
 import React, { ChangeEvent, Component } from 'react'
 import { act } from 'react-dom/test-utils'
-import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './react-minisearch'
-import MiniSearch from 'minisearch'
+import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch, WithMiniSearchProps } from './react-minisearch'
+import MiniSearch, { Options } from 'minisearch'
 
-const documents = [
+type DocumentType = {
+  uid: number,
+  title: string
+}
+
+const documents: DocumentType[] = [
   { uid: 1, title: 'De Rerum Natura' },
   { uid: 2, title: 'The Selfish Gene' },
 ]
 
-const options = { fields: ['title'], idField: 'uid' }
+const options: Options<DocumentType> = { fields: ['title'], idField: 'uid' }
 
-const props = { documents, options, documentToAdd: null, documentsToAdd: null, documentToRemove: null }
+type Props = {
+  documents: DocumentType[],
+  options: Options<DocumentType>,
+  documentToAdd: DocumentType | null,
+  documentsToAdd: DocumentType[] | null,
+  documentToRemove: DocumentType | null
+}
+
+const props: Props = { documents, options, documentToAdd: null, documentsToAdd: null, documentToRemove: null }
 
 const documentToAdd = { uid: 3, title: 'Pista Nera' }
 
@@ -23,7 +36,7 @@ const documentToRemove = documents[0]
 
 let promise = Promise.resolve()
 
-const ChildComponent = ({
+const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   search,
   searchResults,
   autoSuggest,
@@ -34,8 +47,8 @@ const ChildComponent = ({
   remove,
   removeById,
   clearSearch,
-  clearSuggestions,
-}: UseMiniSearch) => {
+  clearSuggestions
+}) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value
     autoSuggest(query)
@@ -49,7 +62,7 @@ const ChildComponent = ({
         { suggestions && suggestions.map(({ suggestion }) => <li key={suggestion}>{ suggestion }</li>)}
       </ul>
       <ul className='results'>
-        { searchResults && searchResults.map((result) => <li key={result.id}>{ result.title }</li>) }
+        { searchResults && searchResults.map((result) => <li key={result.uid}>{ result.title }</li>) }
       </ul>
       <button className='add' onClick={() => add(documentToAdd)}>
         Add One
@@ -73,7 +86,7 @@ const ChildComponent = ({
   )
 }
 
-const testComponent = (Component: any) => {
+const testComponent = (Component: React.FC<Props>) => {
   it('gets a miniSearch prop with the MiniSearch instance', () => {
     const wrap = mount(<Component {...props} />)
     expect(wrap.find('ChildComponent')).toHaveProp('miniSearch', expect.any(MiniSearch))
@@ -195,7 +208,7 @@ const testComponent = (Component: any) => {
 
 describe('useMiniSearch', () => {
   const MyComponent = ({ documents, options }) => {
-    const props = useMiniSearch(documents, options)
+    const props = useMiniSearch<DocumentType>(documents, options)
     const { search, autoSuggest } = props
 
     const handleChange = (event) => {
@@ -211,25 +224,26 @@ describe('useMiniSearch', () => {
 })
 
 describe('withMiniSearch', () => {
-  const MyComponent = withMiniSearch<{ otherProp: string }>(documents, options, ChildComponent)
+  const MyComponent = withMiniSearch<Props, DocumentType>(documents, options, ChildComponent)
+  const MyComponentWithAdditionalProp = withMiniSearch<Props & { otherProp: string }, DocumentType>(documents, options, ChildComponent)
 
   testComponent(MyComponent)
 
   it('accepts other props', () => {
-    const wrap = mount(<MyComponent {...props} otherProp='foo' />)
+    const wrap = mount(<MyComponentWithAdditionalProp {...props} otherProp='foo' />)
 
     expect(wrap.find('ChildComponent')).toHaveProp('otherProp', 'foo')
   })
 
   it('sets the display name of the wrapped component', () => {
-    const wrap = mount(<MyComponent {...props} otherProp='foo' />)
+    const wrap = mount(<MyComponent {...props} />)
 
     expect(wrap.find('WithMiniSearch(ChildComponent)')).toExist()
   })
 })
 
 describe('WithMiniSearch', () => {
-  const MyComponent = ({ documents, options }) => (
+  const MyComponent = ({ documents, options }: Props) => (
     <WithMiniSearch documents={documents} options={options}>
       {
         (props) => <ChildComponent {...props} />

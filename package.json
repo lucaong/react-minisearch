@@ -1,6 +1,6 @@
 {
   "name": "react-minisearch",
-  "version": "2.1.8",
+  "version": "2.6.0",
   "description": "React integration for MiniSearch",
   "main": "dist/react-minisearch.js",
   "repository": "https://github.com/lucaong/react-minisearch",
@@ -20,7 +20,7 @@
     "jest": "^26.4.2",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
-    "minisearch": "^2.1.1",
+    "minisearch": "^2.6.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "rollup": "^2.26.9",
@@ -42,7 +42,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "minisearch": "^2.1.1",
+    "minisearch": "^2.6.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
