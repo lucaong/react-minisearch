@@ -3425,10 +3425,10 @@ minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-minisearch@^2.1.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-2.5.1.tgz#37c2271f0f9e61467d4cca6e85466e01698cedc4"
-  integrity sha512-OueBANp0lQnlTZJDEOcBwCsOeM892+m9jbN2xOIsordR3nBhmG000Gw2PRFq9/wB/zwSA/3EeJNR6E6fUYbEQg==
+minisearch@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-2.6.0.tgz#adc0c279624a6e555702fa3376fe6de9fc3999cd"
+  integrity sha512-ImsZcPU+W/9vgkWd3+PmDtv9+zaBygXrm82Lk3yjfQETZ0LlPBAvxnLElcjiKNoIUuqwYXY7xBzDVXDQetiXoQ==
 
 mixin-deep@^1.2.0:
   version "1.3.2"
