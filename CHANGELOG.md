@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.6.2
+
+  - [fix] Fix type of `searchResults`
+
 ## v2.6.1
 
   - Better types using generics
