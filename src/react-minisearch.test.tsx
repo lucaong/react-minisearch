@@ -46,6 +46,7 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   addAllAsync,
   remove,
   removeById,
+  removeAll,
   clearSearch,
   clearSuggestions
 }) => {
@@ -78,6 +79,9 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
       </button>
       <button className='remove-by-id' onClick={() => removeById(documentToRemove.uid)}>
         Remove by Id
+      </button>
+      <button className='remove-all' onClick={() => removeAll()}>
+        Remove All
       </button>
       <button className='clear' onClick={() => { clearSearch(); clearSuggestions() }}>
         Clear
@@ -187,6 +191,18 @@ const testComponent = (Component: React.FC<Props>) => {
 
     const items = wrap.update().find('.results li')
     expect(items).not.toExist()
+  })
+
+  it('removes all documents', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.remove-all').simulate('click')
+
+    ;['natura', 'selfish'].forEach((query) => {
+      wrap.find('input.search').simulate('change', { target: { value: query } })
+      const items = wrap.update().find('.results li')
+      expect(items).not.toExist()
+    })
   })
 
   it('clears search and auto suggestions', () => {
