@@ -1,9 +1,9 @@
-import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
+import MiniSearch, { Options, SearchOptions, Suggestion } from 'minisearch'
 import React, { useEffect, useState, PropsWithChildren } from 'react'
 
 export interface UseMiniSearch<T = object> {
   search: (query: string, options?: SearchOptions<T>) => void,
-  searchResults: SearchResult[] | null,
+  searchResults: T[] | null,
   autoSuggest: (query: string, options?: SearchOptions<T>) => void,
   suggestions: Suggestion[] | null,
   add: (document: T) => void,
@@ -21,7 +21,7 @@ export function useMiniSearch<T = object> (documents: T[], options: Options<T>):
   const [miniSearch] = useState(new MiniSearch<T>(options))
   const [searchResults, setSearchResults] = useState(null)
   const [suggestions, setSuggestions] = useState(null)
-  const [documentById, setDocumentById] = useState({})
+  const [documentById, setDocumentById] = useState<{ [key: string]: T }>({})
   const [isIndexing, setIsIndexing] = useState(false)
   const idField = options.idField || 'id'
 
@@ -29,23 +29,23 @@ export function useMiniSearch<T = object> (documents: T[], options: Options<T>):
     addAll(documents)
   }, [])
 
-  const search = (query: string, searchOptions?: SearchOptions<T>) => {
+  const search = (query: string, searchOptions?: SearchOptions<T>): void => {
     const results = miniSearch.search(query, searchOptions)
     const searchResults = results.map(({ id }) => documentById[id])
     setSearchResults(searchResults)
   }
 
-  const autoSuggest = (query: string, searchOptions?: SearchOptions<T>) => {
+  const autoSuggest = (query: string, searchOptions?: SearchOptions<T>): void => {
     const suggestions = miniSearch.autoSuggest(query, searchOptions)
     setSuggestions(suggestions)
   }
 
-  const add = (document: T) => {
+  const add = (document: T): void => {
     setDocumentById({ ...documentById, [document[idField]]: document })
     miniSearch.add(document)
   }
 
-  const addAll = (documents: T[]) => {
+  const addAll = (documents: T[]): void => {
     const byId = documents.reduce((acc, doc) => {
       acc[doc[idField]] = doc
       return acc
@@ -55,7 +55,7 @@ export function useMiniSearch<T = object> (documents: T[], options: Options<T>):
     miniSearch.addAll(documents)
   }
 
-  const addAllAsync = (documents: T[], options?: { chunkSize?: number }) => {
+  const addAllAsync = (documents: T[], options?: { chunkSize?: number }): Promise<void> => {
     const byId = documents.reduce((acc, doc) => {
       acc[doc[idField]] = doc
       return acc
@@ -69,25 +69,25 @@ export function useMiniSearch<T = object> (documents: T[], options: Options<T>):
     })
   }
 
-  const remove = (document: T) => {
+  const remove = (document: T): void => {
     miniSearch.remove(document)
-    setDocumentById(removeFromMap(documentById, document[idField]))
+    setDocumentById(removeFromMap<T>(documentById, document[idField]))
   }
 
-  const removeById = (id: any) => {
+  const removeById = (id: any): void => {
     const document = documentById[id]
     if (document == null) {
       throw new Error(`react-minisearch: document with id ${id} does not exist in the index`)
     }
     miniSearch.remove(document)
-    setDocumentById(removeFromMap(documentById, id))
+    setDocumentById(removeFromMap<T>(documentById, id))
   }
 
-  const clearSearch = () => {
+  const clearSearch = (): void => {
     setSearchResults(null)
   }
 
-  const clearSuggestions = () => {
+  const clearSuggestions = (): void => {
     setSuggestions(null)
   }
 
@@ -108,7 +108,7 @@ export function useMiniSearch<T = object> (documents: T[], options: Options<T>):
   }
 }
 
-function removeFromMap (map: object, keyToRemove: any) {
+function removeFromMap<T> (map: { [key: string]: T }, keyToRemove: any): { [key: string]: T } {
   const newMap = Object.assign({}, map)
   delete newMap[keyToRemove]
   return newMap
