@@ -1,7 +1,7 @@
 import MiniSearch, { Options, SearchOptions, Suggestion } from 'minisearch'
 import React, { useEffect, useState, PropsWithChildren } from 'react'
 
-export interface UseMiniSearch<T = object> {
+export interface UseMiniSearch<T = any> {
   search: (query: string, options?: SearchOptions<T>) => void,
   searchResults: T[] | null,
   autoSuggest: (query: string, options?: SearchOptions<T>) => void,
@@ -18,7 +18,7 @@ export interface UseMiniSearch<T = object> {
   miniSearch: MiniSearch<T>
 }
 
-export function useMiniSearch<T = object> (documents: T[], options: Options<T>): UseMiniSearch<T> {
+export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
   const [miniSearch] = useState(new MiniSearch<T>(options))
   const [searchResults, setSearchResults] = useState(null)
   const [suggestions, setSuggestions] = useState(null)
@@ -124,7 +124,7 @@ function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string
   return Component.displayName || Component.name || 'Component'
 }
 
-export function withMiniSearch<OwnProps, T = object> (
+export function withMiniSearch<OwnProps, T = any> (
   documents: T[],
   options: Options<T>,
   Component: React.ComponentType<OwnProps & UseMiniSearch<T>>,
@@ -139,7 +139,7 @@ export function withMiniSearch<OwnProps, T = object> (
   return WithMiniSearch
 }
 
-export interface WithMiniSearchProps<T = object> {
+export interface WithMiniSearchProps<T = any> {
   documents: T[],
   options: Options<T>,
   children: (props: UseMiniSearch<T>) => JSX.Element | null,

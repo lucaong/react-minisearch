@@ -153,7 +153,7 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `search(query: string, searchOptions?: SearchOptions) => void`: function to be called in order to perform the search
 
-  - `searchResults: SearchResult[] | null`: array of search results, or `null` when no search was performed or search was cleared
+  - `searchResults: T[] | null`: array of search results, or `null` when no search was performed or search was cleared
 
   - `clearSearch() => void`: function to be called in order to clear the search (setting `searchResults` to `null`)
 
@@ -163,13 +163,13 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `clearSuggestions() => void`: function to be called in order to clear the suggestions (setting `suggestions` to `null`)
 
-  - `add(document: object) => void`: function to add a new document to the index
+  - `add(document: T) => void`: function to add a new document to the index
 
-  - `addAll(documents: object[]) => void`: function to add several new documents to the index in bulk
+  - `addAll(documents: T[]) => void`: function to add several new documents to the index in bulk
 
-  - `addAllAsync(documents: object[], options?: object[]) => Promise<void>`: same as `addAll`, but works asynchronously and in batches to avoid blocking the UI
+  - `addAllAsync(documents: T[], options?: object) => Promise<void>`: same as `addAll`, but works asynchronously and in batches to avoid blocking the UI
 
-  - `remove(document: object) => void`: function to remove a document from the index
+  - `remove(document: T) => void`: function to remove a document from the index
 
   - `removeById(id: any) => void`: function to remove a document from the index by its id
 
@@ -177,6 +177,8 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `miniSearch: MiniSearch`: the `MiniSearch` instance, for the (rare) cases
     when it is necessary to use it directly
+
+In this list, the type `T` is a generic type that refers to the type of the document being indexed.
 
 Many of these props correspond to methods on the `MiniSearch` class, as
 documented in the [MiniSearch
