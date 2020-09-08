@@ -173,6 +173,8 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
   - `removeById(id: any) => void`: function to remove a document from the index by its id
 
+  - `removeAll(documents?: T[]) => void`: function to remove several documents, or all documents, from the index
+
   - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
 
   - `miniSearch: MiniSearch`: the `MiniSearch` instance, for the (rare) cases
