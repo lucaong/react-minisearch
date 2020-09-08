@@ -33,7 +33,7 @@ import { useMiniSearch } from 'react-minisearch'
 const documents = [
   { id: 1, name: 'Agata' },
   { id: 2, name: 'Finn' },
-  // ...etc
+  // …etc
 ]
 
 // See MiniSearch for documentation on options
@@ -48,7 +48,7 @@ const MyComponent = () => {
 
   return (
     <div>
-      <input type='text' onChange={handleSearchChange} placeholder='Search...' />
+      <input type='text' onChange={handleSearchChange} placeholder='Search…' />
 
       <ol>
         <h3>Results:</h3>
@@ -76,7 +76,7 @@ const MyComponent = ({ search, searchResults }) => {
 
   return (
     <div>
-      <input type='text' onChange={handleSearchChange} placeholder='Search...' />
+      <input type='text' onChange={handleSearchChange} placeholder='Search…' />
 
       <ol>
         <h3>Results:</h3>
@@ -94,7 +94,7 @@ const MyComponent = ({ search, searchResults }) => {
 const documents = [
   { id: 1, name: 'Agata' },
   { id: 2, name: 'Finn' },
-  // ...etc
+  // …etc
 ]
 
 // See MiniSearch for documentation on options
@@ -112,7 +112,7 @@ import { WithMiniSearch } from 'react-minisearch'
 const documents = [
   { id: 1, name: 'Agata' },
   { id: 2, name: 'Finn' },
-  // ...etc
+  // …etc
 ]
 
 // See MiniSearch for documentation on options
@@ -128,7 +128,7 @@ const MyComponent = () => (
 
         return (
           <div>
-            <input type='text' onChange={handleSearchChange} placeholder='Search...' />
+            <input type='text' onChange={handleSearchChange} placeholder='Search…' />
 
             <ol>
               <h3>Results:</h3>
