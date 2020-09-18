@@ -151,31 +151,46 @@ const MyComponent = () => (
 The complete set of props that are provided by `react-minisearch` is the same
 for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
 
-  - `search(query: string, searchOptions?: SearchOptions) => void`: function to be called in order to perform the search
+  - `search(query: string, searchOptions?: SearchOptions) => void`: function to
+    be called in order to perform the search
 
-  - `searchResults: T[] | null`: array of search results, or `null` when no search was performed or search was cleared
+  - `searchResults: T[] | null`: array of search results, or `null` when no
+    search was performed or search was cleared
 
-  - `clearSearch() => void`: function to be called in order to clear the search (setting `searchResults` to `null`)
+  - `rawResults: SearchResult[] | null`: array of raw search results from
+    MiniSearch, including scores and match information, or `null` when no search
+    was performed or search was cleared
 
-  - `autoSuggest(query: string, searchOptions?: SearchOptions) => void`: function to be called in order to obtain auto suggestions
+  - `clearSearch() => void`: function to be called in order to clear the search
+    (setting `searchResults` to `null`)
 
-  - `suggestions: Suggestion[] | null`: array of auto suggestions, or `null` when auto suggestions are not used or cleared
+  - `autoSuggest(query: string, searchOptions?: SearchOptions) => void`:
+    function to be called in order to obtain auto suggestions
 
-  - `clearSuggestions() => void`: function to be called in order to clear the suggestions (setting `suggestions` to `null`)
+  - `suggestions: Suggestion[] | null`: array of auto suggestions, or `null`
+    when auto suggestions are not used or cleared
+
+  - `clearSuggestions() => void`: function to be called in order to clear the
+    suggestions (setting `suggestions` to `null`)
 
   - `add(document: T) => void`: function to add a new document to the index
 
-  - `addAll(documents: T[]) => void`: function to add several new documents to the index in bulk
+  - `addAll(documents: T[]) => void`: function to add several new documents to
+    the index in bulk
 
-  - `addAllAsync(documents: T[], options?: object) => Promise<void>`: same as `addAll`, but works asynchronously and in batches to avoid blocking the UI
+  - `addAllAsync(documents: T[], options?: object) => Promise<void>`: same as
+    `addAll`, but works asynchronously and in batches to avoid blocking the UI
 
   - `remove(document: T) => void`: function to remove a document from the index
 
-  - `removeById(id: any) => void`: function to remove a document from the index by its id
+  - `removeById(id: any) => void`: function to remove a document from the index
+    by its id
 
-  - `removeAll(documents?: T[]) => void`: function to remove several documents, or all documents, from the index
+  - `removeAll(documents?: T[]) => void`: function to remove several documents,
+    or all documents, from the index
 
-  - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in progress, `false` otherwise
+  - `isIndexing: boolean`: set to `true` when indexing via `addAllAsync` is in
+    progress, `false` otherwise
 
   - `miniSearch: MiniSearch`: the `MiniSearch` instance, for the (rare) cases
     when it is necessary to use it directly

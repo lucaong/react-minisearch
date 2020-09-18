@@ -4,6 +4,11 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.6.4
+
+  - Add `rawResults` prop, to give access to the raw search results including
+    score and match information
+
 ## v2.6.3
 
   - Improve TypeScript types: generic document type now defaults to `any`
