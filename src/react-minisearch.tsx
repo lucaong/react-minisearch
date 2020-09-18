@@ -26,7 +26,13 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null)
   const [documentById, setDocumentById] = useState<{ [key: string]: T }>({})
   const [isIndexing, setIsIndexing] = useState<boolean>(false)
-  const idField = options.idField || 'id'
+  const idField = options.idField || MiniSearch.getDefault('idField') as Options['idField']
+  const extractField = options.extractField || MiniSearch.getDefault('extractField') as Options['extractField']
+  const gatherById = (documents) => documents.reduce((byId, doc) => {
+    const id = extractField(doc, idField)
+    byId[id] = doc
+    return byId
+  }, {})
 
   useEffect(() => {
     addAll(documents)
@@ -45,26 +51,18 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
   }
 
   const add = (document: T): void => {
-    setDocumentById({ ...documentById, [document[idField]]: document })
+    setDocumentById({ ...documentById, [extractField(document, idField)]: document })
     miniSearch.add(document)
   }
 
   const addAll = (documents: T[]): void => {
-    const byId = documents.reduce((acc, doc) => {
-      acc[doc[idField]] = doc
-      return acc
-    }, {})
-
+    const byId = gatherById(documents)
     setDocumentById(Object.assign({}, documentById, byId))
     miniSearch.addAll(documents)
   }
 
   const addAllAsync = (documents: T[], options?: { chunkSize?: number }): Promise<void> => {
-    const byId = documents.reduce((acc, doc) => {
-      acc[doc[idField]] = doc
-      return acc
-    }, {})
-
+    const byId = gatherById(documents)
     setDocumentById(Object.assign({}, documentById, byId))
     setIsIndexing(true)
 
@@ -75,7 +73,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 
   const remove = (document: T): void => {
     miniSearch.remove(document)
-    setDocumentById(removeFromMap<T>(documentById, document[idField]))
+    setDocumentById(removeFromMap<T>(documentById, extractField(document, idField)))
   }
 
   const removeById = (id: any): void => {
