@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v2.6.5
+
+  - [fix] Fix bug with ID field extraction
+
 ## v2.6.4
 
   - Add `rawResults` prop, to give access to the raw search results including
