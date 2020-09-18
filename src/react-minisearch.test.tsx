@@ -39,6 +39,7 @@ let promise = Promise.resolve()
 const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   search,
   searchResults,
+  rawResults,
   autoSuggest,
   suggestions,
   add,
@@ -106,9 +107,12 @@ const testComponent = (Component: React.FC<Props>) => {
 
     expect(items).toHaveLength(1)
     expect(items.first()).toHaveText(documents[0].title)
+    expect(wrap.find('ChildComponent').prop('rawResults')).toHaveLength(1)
+    expect(wrap.find('ChildComponent').prop('rawResults')[0]).toMatchObject({ id: documents[0].uid, terms: ['natura'] })
 
     wrap.find('input.search').simulate('change', { target: { value: 'xyz' } })
     expect(wrap.find('.results li')).not.toExist()
+    expect(wrap.find('ChildComponent').prop('rawResults')).toHaveLength(0)
   })
 
   it('produces auto suggestions', () => {
@@ -212,12 +216,14 @@ const testComponent = (Component: React.FC<Props>) => {
     wrap.update()
 
     expect(wrap.find('ChildComponent').prop('searchResults')).not.toBeNull()
+    expect(wrap.find('ChildComponent').prop('rawResults')).not.toBeNull()
     expect(wrap.find('ChildComponent').prop('suggestions')).not.toBeNull()
 
     wrap.find('button.clear').simulate('click')
     wrap.update()
 
     expect(wrap.find('ChildComponent').prop('searchResults')).toBeNull()
+    expect(wrap.find('ChildComponent').prop('rawResults')).toBeNull()
     expect(wrap.find('ChildComponent').prop('suggestions')).toBeNull()
   })
 }

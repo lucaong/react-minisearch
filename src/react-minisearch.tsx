@@ -1,9 +1,10 @@
-import MiniSearch, { Options, SearchOptions, Suggestion } from 'minisearch'
+import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
 import React, { useEffect, useState, PropsWithChildren } from 'react'
 
 export interface UseMiniSearch<T = any> {
   search: (query: string, options?: SearchOptions<T>) => void,
   searchResults: T[] | null,
+  rawResults: SearchResult[] | null,
   autoSuggest: (query: string, options?: SearchOptions<T>) => void,
   suggestions: Suggestion[] | null,
   add: (document: T) => void,
@@ -20,10 +21,11 @@ export interface UseMiniSearch<T = any> {
 
 export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
   const [miniSearch] = useState(new MiniSearch<T>(options))
-  const [searchResults, setSearchResults] = useState(null)
-  const [suggestions, setSuggestions] = useState(null)
+  const [rawResults, setRawResults] = useState<SearchResult[] | null>(null)
+  const [searchResults, setSearchResults] = useState<T[] | null>(null)
+  const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null)
   const [documentById, setDocumentById] = useState<{ [key: string]: T }>({})
-  const [isIndexing, setIsIndexing] = useState(false)
+  const [isIndexing, setIsIndexing] = useState<boolean>(false)
   const idField = options.idField || 'id'
 
   useEffect(() => {
@@ -34,6 +36,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     const results = miniSearch.search(query, searchOptions)
     const searchResults = results.map(({ id }) => documentById[id])
     setSearchResults(searchResults)
+    setRawResults(results)
   }
 
   const autoSuggest = (query: string, searchOptions?: SearchOptions<T>): void => {
@@ -90,6 +93,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 
   const clearSearch = (): void => {
     setSearchResults(null)
+    setRawResults(null)
   }
 
   const clearSuggestions = (): void => {
@@ -99,6 +103,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
   return {
     search,
     searchResults,
+    rawResults,
     autoSuggest,
     suggestions,
     add,
