@@ -3840,10 +3840,10 @@ minimist@^1.1.0, minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-minisearch@^2.1.3:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-2.6.2.tgz#ec4e830fac858f38f336dde9b38947b2ff9e2c07"
-  integrity sha512-9I8qFrgPUPbFKuRaly5M8h72TtwpSprgP/eIVtrqQGjuJa/vsSoByRrbiUh76D62DNZVRwhhzt8c9v+4VycXgg==
+minisearch@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-3.0.0.tgz#a6f303d392993d595c260b26f14bac529a3bb347"
+  integrity sha512-/XXUYKcwMhlO5ZD/XXae2xkMlKcM8RzPeFaIAt8FT2lHu9vpayDfLp7M8P3UP+tprLzilSen8FyuwnsmezBU1Q==
 
 mississippi@^3.0.0:
   version "3.0.0"

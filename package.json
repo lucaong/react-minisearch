@@ -42,7 +42,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "minisearch": "^2.6.0",
+    "minisearch": "^3.0.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

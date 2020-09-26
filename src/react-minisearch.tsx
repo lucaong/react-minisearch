@@ -2,10 +2,10 @@ import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'mi
 import React, { useEffect, useState, PropsWithChildren } from 'react'
 
 export interface UseMiniSearch<T = any> {
-  search: (query: string, options?: SearchOptions<T>) => void,
+  search: (query: string, options?: SearchOptions) => void,
   searchResults: T[] | null,
   rawResults: SearchResult[] | null,
-  autoSuggest: (query: string, options?: SearchOptions<T>) => void,
+  autoSuggest: (query: string, options?: SearchOptions) => void,
   suggestions: Suggestion[] | null,
   add: (document: T) => void,
   addAll: (documents: T[]) => void,
@@ -38,14 +38,14 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     addAll(documents)
   }, [])
 
-  const search = (query: string, searchOptions?: SearchOptions<T>): void => {
+  const search = (query: string, searchOptions?: SearchOptions): void => {
     const results = miniSearch.search(query, searchOptions)
     const searchResults = results.map(({ id }) => documentById[id])
     setSearchResults(searchResults)
     setRawResults(results)
   }
 
-  const autoSuggest = (query: string, searchOptions?: SearchOptions<T>): void => {
+  const autoSuggest = (query: string, searchOptions?: SearchOptions): void => {
     const suggestions = miniSearch.autoSuggest(query, searchOptions)
     setSuggestions(suggestions)
   }
