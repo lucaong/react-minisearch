@@ -28,5 +28,10 @@
       "error",
       { "functions": false, "classes": false, "variables": false }
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
