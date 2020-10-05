@@ -34,10 +34,6 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     return byId
   }, {})
 
-  useEffect(() => {
-    addAll(documents)
-  }, [])
-
   const search = (query: string, searchOptions?: SearchOptions): void => {
     const results = miniSearch.search(query, searchOptions)
     const searchResults = results.map(({ id }) => documentById[id])
@@ -98,6 +94,10 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     setSuggestions(null)
   }
 
+  useOnMount(() => {
+    addAll(documents)
+  })
+
   return {
     search,
     searchResults,
@@ -127,10 +127,15 @@ function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string
   return Component.displayName || Component.name || 'Component'
 }
 
+function useOnMount (fn: React.EffectCallback) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useEffect(fn, [])
+}
+
 export function withMiniSearch<OwnProps, T = any> (
   documents: T[],
   options: Options<T>,
-  Component: React.ComponentType<OwnProps & UseMiniSearch<T>>,
+  Component: React.ComponentType<OwnProps & UseMiniSearch<T>>
 ): React.FC<OwnProps> {
   const WithMiniSearch = (props: OwnProps) => {
     const miniSearchProps = useMiniSearch<T>(documents, options)

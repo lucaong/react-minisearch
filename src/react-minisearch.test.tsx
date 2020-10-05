@@ -1,9 +1,9 @@
 /* eslint-env jest */
 
 import { mount } from 'enzyme'
-import React, { ChangeEvent, Component } from 'react'
+import React, { ChangeEvent } from 'react'
 import { act } from 'react-dom/test-utils'
-import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch, WithMiniSearchProps } from './react-minisearch'
+import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './react-minisearch'
 import MiniSearch, { Options } from 'minisearch'
 
 type DocumentType = {
@@ -13,7 +13,7 @@ type DocumentType = {
 
 const documents: DocumentType[] = [
   { uid: 1, title: 'De Rerum Natura' },
-  { uid: 2, title: 'The Selfish Gene' },
+  { uid: 2, title: 'The Selfish Gene' }
 ]
 
 const options: Options<DocumentType> = { fields: ['title'], idField: 'uid' }
@@ -231,13 +231,6 @@ const testComponent = (Component: React.FC<Props>) => {
 describe('useMiniSearch', () => {
   const MyComponent = ({ documents, options }) => {
     const props = useMiniSearch<DocumentType>(documents, options)
-    const { search, autoSuggest } = props
-
-    const handleChange = (event) => {
-      const query = event.target.value
-      autoSuggest(query)
-      search(query)
-    }
 
     return <ChildComponent {...props} />
   }
