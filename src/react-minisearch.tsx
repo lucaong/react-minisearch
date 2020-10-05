@@ -127,9 +127,9 @@ function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string
   return Component.displayName || Component.name || 'Component'
 }
 
-function useOnMount (fn: React.EffectCallback) {
+function useOnMount (callback: React.EffectCallback) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useEffect(fn, [])
+  return useEffect(callback, [])
 }
 
 export function withMiniSearch<OwnProps, T = any> (
