@@ -6,30 +6,31 @@
   "author": "Luca Ongaro",
   "license": "MIT",
   "scripts": {
-    "start": "webpack serve --watch --mode=development",
-    "build": "webpack --mode=production"
+    "start": "rollup -c rollup.config.dev.js -w",
+    "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-core": "^7.0.0-0",
-    "babel-loader": "^8.0.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@rollup/plugin-replace": "^2.3.4",
+    "babel": "^6.23.0",
     "regenerator-runtime": "^0.13.0",
+    "rollup": "^2.26.9",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-serve": "^1.1.0",
     "snazzy": "^8.0.0",
     "standard": "^12.0.1",
-    "unfetch": "^4.0.1",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^4.4.0",
-    "webpack-dev-server": "^3.11.2"
+    "unfetch": "^4.0.1"
   },
   "dependencies": {
     "core-js": "^3.0.0",
     "minisearch": "^3.0.2",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "react-minisearch": "file:../"
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-minisearch": "^3.0.0"
   }
 }

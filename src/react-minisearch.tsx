@@ -20,7 +20,7 @@ export interface UseMiniSearch<T = any> {
 }
 
 export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
-  const [miniSearch] = useState(new MiniSearch<T>(options))
+  const [miniSearch] = useState<MiniSearch<T>>(new MiniSearch<T>(options))
   const [rawResults, setRawResults] = useState<SearchResult[] | null>(null)
   const [searchResults, setSearchResults] = useState<T[] | null>(null)
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null)
