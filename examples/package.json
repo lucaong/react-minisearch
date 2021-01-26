@@ -6,7 +6,7 @@
   "author": "Luca Ongaro",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --watch --mode=development",
+    "start": "webpack serve --watch --mode=development",
     "build": "webpack --mode=production"
   },
   "devDependencies": {
@@ -22,14 +22,14 @@
     "standard": "^12.0.1",
     "unfetch": "^4.0.1",
     "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-cli": "^4.4.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "core-js": "3",
-    "minisearch": "^3.0.0",
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0",
-    "react-minisearch": "^2.1.4"
+    "core-js": "^3.0.0",
+    "minisearch": "^3.0.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-minisearch": "file:../"
   }
 }
