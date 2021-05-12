@@ -81,8 +81,15 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     setDocumentById(removeFromMap<T>(documentById, id))
   }
 
-  const removeAll = (documents: T[] = null) => {
-    documents ? miniSearch.removeAll(documents) : miniSearch.removeAll()
+  const removeAll = function (documents?: T[]): void {
+    if (arguments.length === 0) {
+      miniSearch.removeAll()
+      setDocumentById({})
+    } else {
+      miniSearch.removeAll(documents)
+      const idsToRemove = documents.map((doc) => extractField(doc, idField))
+      setDocumentById(removeManyFromMap<T>(documentById, idsToRemove))
+    }
   }
 
   const clearSearch = (): void => {
@@ -120,6 +127,14 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 function removeFromMap<T> (map: { [key: string]: T }, keyToRemove: any): { [key: string]: T } {
   const newMap = Object.assign({}, map)
   delete newMap[keyToRemove]
+  return newMap
+}
+
+function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: any[]): { [key: string]: T } {
+  const newMap = Object.assign({}, map)
+  keysToRemove.forEach((keyToRemove) => {
+    delete newMap[keyToRemove]
+  })
   return newMap
 }
 

@@ -209,6 +209,24 @@ const testComponent = (Component: React.FC<Props>) => {
     })
   })
 
+  it('removes all documents and re-adds some documents', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.remove-all').simulate('click')
+    wrap.find('button.add-all').simulate('click')
+
+    wrap.find('input.search').simulate('change', { target: { value: 'pieces' } })
+
+    const items = wrap.update().find('.results li')
+    expect(items).toHaveLength(2)
+
+    ;['natura', 'selfish'].forEach((query) => {
+      wrap.find('input.search').simulate('change', { target: { value: query } })
+      const items = wrap.update().find('.results li')
+      expect(items).not.toExist()
+    })
+  })
+
   it('clears search and auto suggestions', () => {
     const wrap = mount(<Component {...props} />)
 
