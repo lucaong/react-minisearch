@@ -1,5 +1,5 @@
 import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
-import React, { useEffect, useState, PropsWithChildren } from 'react'
+import React, { useEffect, useState, useRef, PropsWithChildren } from 'react'
 
 export interface UseMiniSearch<T = any> {
   search: (query: string, options?: SearchOptions) => void,
@@ -20,11 +20,11 @@ export interface UseMiniSearch<T = any> {
 }
 
 export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
-  const [miniSearch] = useState<MiniSearch<T>>(new MiniSearch<T>(options))
+  const miniSearchRef = useRef<MiniSearch<T>>(new MiniSearch<T>(options))
   const [rawResults, setRawResults] = useState<SearchResult[] | null>(null)
   const [searchResults, setSearchResults] = useState<T[] | null>(null)
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null)
-  const [documentById, setDocumentById] = useState<{ [key: string]: T }>({})
+  const documentByIdRef = useRef<{ [key: string]: T }>({})
   const [isIndexing, setIsIndexing] = useState<boolean>(false)
   const idField = options.idField || MiniSearch.getDefault('idField') as Options['idField']
   const extractField = options.extractField || MiniSearch.getDefault('extractField') as Options['extractField']
@@ -33,6 +33,9 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     byId[id] = doc
     return byId
   }, {})
+
+  const miniSearch = miniSearchRef.current
+  const documentById = documentByIdRef.current
 
   const search = (query: string, searchOptions?: SearchOptions): void => {
     const results = miniSearch.search(query, searchOptions)
@@ -47,19 +50,19 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
   }
 
   const add = (document: T): void => {
-    setDocumentById({ ...documentById, [extractField(document, idField)]: document })
+    documentByIdRef.current[extractField(document, idField)] = document
     miniSearch.add(document)
   }
 
   const addAll = (documents: T[]): void => {
     const byId = gatherById(documents)
-    setDocumentById(Object.assign({}, documentById, byId))
+    documentByIdRef.current = Object.assign(documentById, byId)
     miniSearch.addAll(documents)
   }
 
   const addAllAsync = (documents: T[], options?: { chunkSize?: number }): Promise<void> => {
     const byId = gatherById(documents)
-    setDocumentById(Object.assign({}, documentById, byId))
+    documentByIdRef.current = Object.assign(documentById, byId)
     setIsIndexing(true)
 
     return miniSearch.addAllAsync(documents, options || {}).then(() => {
@@ -69,7 +72,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 
   const remove = (document: T): void => {
     miniSearch.remove(document)
-    setDocumentById(removeFromMap<T>(documentById, extractField(document, idField)))
+    documentByIdRef.current = removeFromMap<T>(documentById, extractField(document, idField))
   }
 
   const removeById = (id: any): void => {
@@ -78,17 +81,17 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
       throw new Error(`react-minisearch: document with id ${id} does not exist in the index`)
     }
     miniSearch.remove(document)
-    setDocumentById(removeFromMap<T>(documentById, id))
+    documentByIdRef.current = removeFromMap<T>(documentById, id)
   }
 
   const removeAll = function (documents?: T[]): void {
     if (arguments.length === 0) {
       miniSearch.removeAll()
-      setDocumentById({})
+      documentByIdRef.current = {}
     } else {
       miniSearch.removeAll(documents)
       const idsToRemove = documents.map((doc) => extractField(doc, idField))
-      setDocumentById(removeManyFromMap<T>(documentById, idsToRemove))
+      documentByIdRef.current = removeManyFromMap<T>(documentById, idsToRemove)
     }
   }
 
@@ -125,17 +128,15 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 }
 
 function removeFromMap<T> (map: { [key: string]: T }, keyToRemove: any): { [key: string]: T } {
-  const newMap = Object.assign({}, map)
-  delete newMap[keyToRemove]
-  return newMap
+  delete map[keyToRemove]
+  return map
 }
 
 function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: any[]): { [key: string]: T } {
-  const newMap = Object.assign({}, map)
   keysToRemove.forEach((keyToRemove) => {
-    delete newMap[keyToRemove]
+    delete map[keyToRemove]
   })
-  return newMap
+  return map
 }
 
 function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string {
