@@ -4,6 +4,15 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v3.0.2
+
+  - [fix] Avoid unnecessary re-renders (and associated bugs) by using `useRef`
+    instead of `useState` where appropriate.
+
+## v3.0.1
+
+  - [fix] Clean up internal map of documents by ID when calling `removeAll`
+
 ## v3.0.0
 
   - Support for MiniSearch `3.0.0`
