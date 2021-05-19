@@ -2265,10 +2265,10 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-minisearch@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/react-minisearch/-/react-minisearch-3.0.0.tgz#bbecaf129d660309667e6eaca833da4e33495b99"
-  integrity sha512-taSql3QazhBo+xfOABUeJREtAMoWOAEP/vaK0kU2QltVLRxvuhQbz1iwWlbSfCYMwGetCOpXcRdeyaZxcLKRGQ==
+react-minisearch@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-minisearch/-/react-minisearch-3.0.3.tgz#85a544833b3fde1c0ef02f504ced674020b688f2"
+  integrity sha512-zGDZRs9zzAOAOi/+GOYZky8eaj/L2P6uc2Mm6aWIM6NjgMvdLhWJb10zzQI8V7ID46FhCOQMcFw2ApGWxQXNig==
 
 react@^16.14.0:
   version "16.14.0"
