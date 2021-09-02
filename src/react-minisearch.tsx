@@ -1,8 +1,8 @@
-import MiniSearch, { Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
+import MiniSearch, { Query, Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
 import React, { useEffect, useState, useRef, PropsWithChildren } from 'react'
 
 export interface UseMiniSearch<T = any> {
-  search: (query: string, options?: SearchOptions) => void,
+  search: (query: Query, options?: SearchOptions) => void,
   searchResults: T[] | null,
   rawResults: SearchResult[] | null,
   autoSuggest: (query: string, options?: SearchOptions) => void,

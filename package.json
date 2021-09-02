@@ -32,7 +32,7 @@
     "jest": "^26.4.2",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
-    "minisearch": "^3.0.2",
+    "minisearch": "^3.1.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "rollup": "^2.26.9",
@@ -53,7 +53,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "minisearch": "^3.0.0",
+    "minisearch": "^3.1.0",
     "react": "^16.8.0 || ^17.0.0"
   },
   "jest": {
