@@ -4,6 +4,11 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v3.1.0
+
+  - Allow passing a query expression to the `search` function, as introduced in
+    MiniSearch v3.1.0
+
 ## v3.0.2
 
   - [fix] Avoid unnecessary re-renders (and associated bugs) by using `useRef`
