@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v4.0.1
+
+  - Fix issue with package dependencies, and use MiniSearch `4.0.1`
+
 ## v4.0.0
 
   - Support for MiniSearch `4.0.0`
