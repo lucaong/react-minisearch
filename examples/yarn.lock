@@ -2153,10 +2153,10 @@ minimist@^1.1.0, minimist@^1.1.1, minimist@^1.2.5:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-minisearch@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-4.0.0.tgz#054ca408a680ab847ef9178eea89885845c41c91"
-  integrity sha512-xsnIkjRP7Mmh7r23ePVXoBWPtp5F6flPhrONNi1DibQ2F1bA3T3TUf7nDljlJIH/DAGDsp8wXCjEiGqeQSlz9g==
+minisearch@5.0.0-beta1:
+  version "5.0.0-beta1"
+  resolved "https://registry.yarnpkg.com/minisearch/-/minisearch-5.0.0-beta1.tgz#7292aa368716e862f90df0c74d37cbf3f183fc3f"
+  integrity sha512-/huf6dMqE0182OzJPTIU+SyjY4HBds2CL82ADJboPsROiuFpnOz9wyCxWJwHX+fwehYS1hUAr87W5AGVcfn4jQ==
 
 mkdirp@^0.5.1:
   version "0.5.5"
@@ -2433,10 +2433,10 @@ react-is@^16.13.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-minisearch@^3.0.3:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-minisearch/-/react-minisearch-3.1.0.tgz#e096102f2c7c6a02c9cb6bd99e90e863dac8e66b"
-  integrity sha512-fxRKdqvgvqDqp15b02KiQ5j6tYY5E06jUyW7FWLx7hSadITT9ZJnIJcR0YzGlIv3/XAoMRfktIdCaWJOlwyVRQ==
+react-minisearch@5.0.0-beta1:
+  version "5.0.0-beta1"
+  resolved "https://registry.yarnpkg.com/react-minisearch/-/react-minisearch-5.0.0-beta1.tgz#5294049f26f1a1dbaa435730b9c7e3c571222a9b"
+  integrity sha512-nLviE7PiK7Y8VRWbAcIZuhUiVyo0AFHvBXD2fs1f5CBniRkZ/Rm3pt+r+sl/E+qVIIgb7OIFTYmdF8lgY04CiA==
 
 react@^16.14.0:
   version "16.14.0"
