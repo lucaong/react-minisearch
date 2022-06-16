@@ -67,6 +67,7 @@ const App = ({ documents }) => {
 
   const autoSuggestOptions = {
     ...searchOptions,
+    combineWith: 'AND',
     prefix: (term, i, terms) => i === terms.length - 1,
     boost: { artist: 5 }
   }

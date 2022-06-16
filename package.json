@@ -33,7 +33,7 @@
     "jest": "^26.4.2",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
-    "minisearch": "5.0.0-beta1",
+    "minisearch": "5.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "rollup": "^2.26.9",
