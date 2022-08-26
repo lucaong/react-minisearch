@@ -124,9 +124,13 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     }
   }, [])
 
-  useOnMount(() => {
+  useEffect(() => {
     utils.addAll(documents)
-  })
+
+    return () => {
+      utils.removeAll(documents)
+    }
+  }, [utils, documents])
 
   return {
     searchResults,
@@ -151,11 +155,6 @@ function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: any[]): 
 
 function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string {
   return Component.displayName || Component.name || 'Component'
-}
-
-function useOnMount (callback: React.EffectCallback) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useEffect(callback, [])
 }
 
 export function withMiniSearch<OwnProps, T = any> (
