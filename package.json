@@ -54,7 +54,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "minisearch": "^5.0.0-beta1",
+    "minisearch": "^5.0.0",
     "react": "^16.8.0 || ^17.0.0"
   },
   "jest": {
