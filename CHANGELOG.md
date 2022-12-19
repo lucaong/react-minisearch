@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v6.0.2
+
+  - [fix] Return stable reference from useMiniSearch
+
 ## v6.0.1
 
   - Relax React peer dependency to allow React 18
