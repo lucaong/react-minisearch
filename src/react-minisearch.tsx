@@ -136,6 +136,9 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
       remove,
       removeById,
       removeAll,
+      discard,
+      discardAll,
+      replace,
       clearSearch,
       clearSuggestions,
       miniSearch
