@@ -1,5 +1,5 @@
 import MiniSearch, { Query, Options, SearchOptions, SearchResult, Suggestion } from 'minisearch'
-import React, { useEffect, useState, useRef, PropsWithChildren } from 'react'
+import React, { useEffect, useState, useRef, PropsWithChildren, useMemo } from 'react'
 
 export interface UseMiniSearch<T = any> {
   search: (query: Query, options?: SearchOptions) => void,
@@ -23,119 +23,143 @@ export interface UseMiniSearch<T = any> {
 }
 
 export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
+  const optionsRef = useRef(options)
   const miniSearchRef = useRef<MiniSearch<T>>(new MiniSearch<T>(options))
+  const documentByIdRef = useRef<{ [key: string]: T }>({})
+
   const [rawResults, setRawResults] = useState<SearchResult[] | null>(null)
   const [searchResults, setSearchResults] = useState<T[] | null>(null)
   const [suggestions, setSuggestions] = useState<Suggestion[] | null>(null)
-  const documentByIdRef = useRef<{ [key: string]: T }>({})
   const [isIndexing, setIsIndexing] = useState<boolean>(false)
-  const idField = options.idField || MiniSearch.getDefault('idField') as Options['idField']
-  const extractField = options.extractField || MiniSearch.getDefault('extractField') as Options['extractField']
-  const gatherById = (documents) => documents.reduce((byId, doc) => {
-    const id = extractField(doc, idField)
-    byId[id] = doc
-    return byId
-  }, {})
 
-  const miniSearch = miniSearchRef.current
-  const documentById = documentByIdRef.current
+  const utils = useMemo(() => {
+    const miniSearch = miniSearchRef.current
+    const documentById = documentByIdRef.current
+    const options = optionsRef.current
 
-  const search = (query: string, searchOptions?: SearchOptions): void => {
-    const results = miniSearch.search(query, searchOptions)
-    const searchResults = results.map(({ id }) => documentById[id])
-    setSearchResults(searchResults)
-    setRawResults(results)
-  }
+    const idField = options.idField || MiniSearch.getDefault('idField') as Options['idField']
+    const extractField = options.extractField || MiniSearch.getDefault('extractField') as Options['extractField']
+    const gatherById = (documents) => documents.reduce((byId, doc) => {
+      const id = extractField(doc, idField)
+      byId[id] = doc
+      return byId
+    }, {})
 
-  const autoSuggest = (query: string, searchOptions?: SearchOptions): void => {
-    const suggestions = miniSearch.autoSuggest(query, searchOptions)
-    setSuggestions(suggestions)
-  }
-
-  const add = (document: T): void => {
-    documentByIdRef.current[extractField(document, idField)] = document
-    miniSearch.add(document)
-  }
-
-  const addAll = (documents: readonly T[]): void => {
-    const byId = gatherById(documents)
-    documentByIdRef.current = Object.assign(documentById, byId)
-    miniSearch.addAll(documents)
-  }
-
-  const addAllAsync = (documents: readonly T[], options?: { chunkSize?: number }): Promise<void> => {
-    const byId = gatherById(documents)
-    documentByIdRef.current = Object.assign(documentById, byId)
-    setIsIndexing(true)
-
-    return miniSearch.addAllAsync(documents, options || {}).then(() => {
-      setIsIndexing(false)
-    })
-  }
-
-  const remove = (document: T): void => {
-    miniSearch.remove(document)
-    documentByIdRef.current = removeFromMap<T>(documentById, extractField(document, idField))
-  }
-
-  const removeAll = function (documents?: readonly T[]): void {
-    if (arguments.length === 0) {
-      miniSearch.removeAll()
-      documentByIdRef.current = {}
-    } else {
-      miniSearch.removeAll(documents)
-      const idsToRemove = documents.map((doc) => extractField(doc, idField))
-      documentByIdRef.current = removeManyFromMap<T>(documentById, idsToRemove)
+    const search = (query: string, searchOptions?: SearchOptions): void => {
+      const results = miniSearch.search(query, searchOptions)
+      const searchResults = results.map(({ id }) => documentById[id])
+      setSearchResults(searchResults)
+      setRawResults(results)
     }
-  }
 
-  const discard = (id: any): void => {
-    miniSearch.discard(id)
-    documentByIdRef.current = removeFromMap<T>(documentById, id)
-  }
+    const autoSuggest = (query: string, searchOptions?: SearchOptions): void => {
+      const suggestions = miniSearch.autoSuggest(query, searchOptions)
+      setSuggestions(suggestions)
+    }
 
-  const discardAll = (ids: readonly any[]): void => {
-    miniSearch.discardAll(ids)
-    documentByIdRef.current = removeManyFromMap<T>(documentById, ids)
-  }
+    const add = (document: T): void => {
+      documentByIdRef.current[extractField(document, idField)] = document
+      miniSearch.add(document)
+    }
 
-  const replace = (document: T): void => {
-    miniSearch.replace(document)
-    documentByIdRef.current[extractField(document, idField)] = document
-  }
+    const addAll = (documents: readonly T[]): void => {
+      const byId = gatherById(documents)
+      documentByIdRef.current = Object.assign(documentById, byId)
+      miniSearch.addAll(documents)
+    }
 
-  const clearSearch = (): void => {
-    setSearchResults(null)
-    setRawResults(null)
-  }
+    const addAllAsync = (documents: readonly T[], options?: { chunkSize?: number }): Promise<void> => {
+      const byId = gatherById(documents)
+      documentByIdRef.current = Object.assign(documentById, byId)
+      setIsIndexing(true)
 
-  const clearSuggestions = (): void => {
-    setSuggestions(null)
-  }
+      return miniSearch.addAllAsync(documents, options || {}).then(() => {
+        setIsIndexing(false)
+      })
+    }
 
-  useOnMount(() => {
-    addAll(documents)
-  })
+    const remove = (document: T): void => {
+      miniSearch.remove(document)
+      documentByIdRef.current = removeFromMap<T>(documentById, extractField(document, idField))
+    }
+
+    const removeById = (id: any): void => {
+      const document = documentById[id]
+      if (document == null) {
+        throw new Error(`react-minisearch: document with id ${id} does not exist in the index`)
+      }
+      miniSearch.remove(document)
+      documentByIdRef.current = removeFromMap<T>(documentById, id)
+    }
+
+    const removeAll = function (documents?: readonly T[]): void {
+      if (arguments.length === 0) {
+        miniSearch.removeAll()
+        documentByIdRef.current = {}
+      } else {
+        miniSearch.removeAll(documents)
+        const idsToRemove = documents.map((doc) => extractField(doc, idField))
+        documentByIdRef.current = removeManyFromMap<T>(documentById, idsToRemove)
+      }
+    }
+
+    const discard = (id: any): void => {
+      miniSearch.discard(id)
+      documentByIdRef.current = removeFromMap<T>(documentById, id)
+    }
+
+    const discardAll = (ids: readonly any[]): void => {
+      miniSearch.discardAll(ids)
+      documentByIdRef.current = removeManyFromMap<T>(documentById, ids)
+    }
+
+    const replace = (document: T): void => {
+      miniSearch.replace(document)
+      documentByIdRef.current[extractField(document, idField)] = document
+    }
+
+    const clearSearch = (): void => {
+      setSearchResults(null)
+      setRawResults(null)
+    }
+
+    const clearSuggestions = (): void => {
+      setSuggestions(null)
+    }
+
+    return {
+      search,
+      autoSuggest,
+      add,
+      addAll,
+      addAllAsync,
+      remove,
+      removeById,
+      removeAll,
+      discard,
+      discardAll,
+      replace,
+      clearSearch,
+      clearSuggestions,
+      miniSearch
+    }
+  }, [])
+
+  useEffect(() => {
+    utils.addAll(documents)
+
+    return () => {
+      utils.removeAll(documents)
+    }
+  }, [utils, documents])
 
   return {
-    search,
     searchResults,
     rawResults,
-    autoSuggest,
     suggestions,
-    add,
-    addAll,
-    addAllAsync,
-    remove,
-    removeById: discard,
-    removeAll,
-    discard,
-    discardAll,
-    replace,
     isIndexing,
-    clearSearch,
-    clearSuggestions,
-    miniSearch
+    ...utils,
+    removeById: utils.discard
   }
 }
 
@@ -153,11 +177,6 @@ function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: readonly
 
 function getDisplayName<PropsT> (Component: React.ComponentType<PropsT>): string {
   return Component.displayName || Component.name || 'Component'
-}
-
-function useOnMount (callback: React.EffectCallback) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useEffect(callback, [])
 }
 
 export function withMiniSearch<OwnProps, T = any> (

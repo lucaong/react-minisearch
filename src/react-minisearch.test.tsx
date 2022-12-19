@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import { mount } from 'enzyme'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import { act } from 'react-dom/test-utils'
 import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './react-minisearch'
 import MiniSearch, { Options } from 'minisearch'
@@ -290,6 +290,26 @@ describe('useMiniSearch', () => {
   }
 
   testComponent(MyComponent)
+
+  describe('does not trigger unintended effects', () => {
+    const mockDocumentsFetch = () => ({
+      then: (cb) => cb(documents)
+    })
+
+    const MyComponent = ({ options }) => {
+      const props = useMiniSearch<DocumentType>([], options)
+
+      const { addAll } = props
+
+      useEffect(() => {
+        mockDocumentsFetch().then(addAll)
+      }, [addAll])
+
+      return <ChildComponent {...props} />
+    }
+
+    testComponent(MyComponent)
+  })
 })
 
 describe('withMiniSearch', () => {
