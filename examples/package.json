@@ -28,9 +28,9 @@
   },
   "dependencies": {
     "core-js": "^3.0.0",
-    "minisearch": "5.0.0-beta1",
+    "minisearch": "6.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-minisearch": "5.0.0-beta1"
+    "react-minisearch": "6.0.0"
   }
 }

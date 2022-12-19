@@ -8,11 +8,14 @@ export interface UseMiniSearch<T = any> {
   autoSuggest: (query: string, options?: SearchOptions) => void,
   suggestions: Suggestion[] | null,
   add: (document: T) => void,
-  addAll: (documents: T[]) => void,
-  addAllAsync: (documents: T[], options?: { chunkSize?: number }) => Promise<void>,
+  addAll: (documents: readonly T[]) => void,
+  addAllAsync: (documents: readonly T[], options?: { chunkSize?: number }) => Promise<void>,
   remove: (document: T) => void,
   removeById: (id: any) => void,
-  removeAll: (documents?: T[]) => void,
+  removeAll: (documents?: readonly T[]) => void,
+  discard: (id: any) => void,
+  discardAll: (ids: readonly any[]) => void,
+  replace: (document: T) => void,
   isIndexing: boolean,
   clearSearch: () => void,
   clearSuggestions: () => void,
@@ -59,13 +62,13 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
       miniSearch.add(document)
     }
 
-    const addAll = (documents: T[]): void => {
+    const addAll = (documents: readonly T[]): void => {
       const byId = gatherById(documents)
       documentByIdRef.current = Object.assign(documentById, byId)
       miniSearch.addAll(documents)
     }
 
-    const addAllAsync = (documents: T[], options?: { chunkSize?: number }): Promise<void> => {
+    const addAllAsync = (documents: readonly T[], options?: { chunkSize?: number }): Promise<void> => {
       const byId = gatherById(documents)
       documentByIdRef.current = Object.assign(documentById, byId)
       setIsIndexing(true)
@@ -89,7 +92,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
       documentByIdRef.current = removeFromMap<T>(documentById, id)
     }
 
-    const removeAll = function (documents?: T[]): void {
+    const removeAll = function (documents?: readonly T[]): void {
       if (arguments.length === 0) {
         miniSearch.removeAll()
         documentByIdRef.current = {}
@@ -98,6 +101,21 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
         const idsToRemove = documents.map((doc) => extractField(doc, idField))
         documentByIdRef.current = removeManyFromMap<T>(documentById, idsToRemove)
       }
+    }
+
+    const discard = (id: any): void => {
+      miniSearch.discard(id)
+      documentByIdRef.current = removeFromMap<T>(documentById, id)
+    }
+
+    const discardAll = (ids: readonly any[]): void => {
+      miniSearch.discardAll(ids)
+      documentByIdRef.current = removeManyFromMap<T>(documentById, ids)
+    }
+
+    const replace = (document: T): void => {
+      miniSearch.replace(document)
+      documentByIdRef.current[extractField(document, idField)] = document
     }
 
     const clearSearch = (): void => {
@@ -137,7 +155,8 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     rawResults,
     suggestions,
     isIndexing,
-    ...utils
+    ...utils,
+    removeById: utils.discard
   }
 }
 
@@ -146,7 +165,7 @@ function removeFromMap<T> (map: { [key: string]: T }, keyToRemove: any): { [key:
   return map
 }
 
-function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: any[]): { [key: string]: T } {
+function removeManyFromMap<T> (map: { [key: string]: T }, keysToRemove: readonly any[]): { [key: string]: T } {
   keysToRemove.forEach((keyToRemove) => {
     delete map[keyToRemove]
   })

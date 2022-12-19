@@ -34,6 +34,8 @@ const documentsToAdd = [{ uid: 3, title: 'Six Easy Pieces' }, { uid: 4, title: '
 
 const documentToRemove = documents[0]
 
+const documentToReplace = { uid: 1, title: 'The Big Picture' }
+
 let promise = Promise.resolve()
 
 const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
@@ -48,6 +50,8 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   remove,
   removeById,
   removeAll,
+  discard,
+  replace,
   clearSearch,
   clearSuggestions
 }) => {
@@ -83,6 +87,12 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
       </button>
       <button className='remove-all' onClick={() => removeAll()}>
         Remove All
+      </button>
+      <button className='discard' onClick={() => discard(documentToRemove.uid)}>
+        Discard
+      </button>
+      <button className='replace' onClick={() => replace(documentToReplace)}>
+        Replace One
       </button>
       <button className='clear' onClick={() => { clearSearch(); clearSuggestions() }}>
         Clear
@@ -225,6 +235,32 @@ const testComponent = (Component: React.FC<Props>) => {
       const items = wrap.update().find('.results li')
       expect(items).not.toExist()
     })
+  })
+
+  it('discards a document', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.discard').simulate('click')
+    wrap.find('input.search').simulate('change', { target: { value: 'natura' } })
+
+    const items = wrap.update().find('.results li')
+    expect(items).not.toExist()
+  })
+
+  it('replaces a document', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.replace').simulate('click')
+    wrap.find('input.search').simulate('change', { target: { value: 'picture' } })
+
+    let items = wrap.update().find('.results li')
+    expect(items).toHaveLength(1)
+    expect(items.first()).toHaveText(documentToReplace.title)
+
+    wrap.find('input.search').simulate('change', { target: { value: 'natura' } })
+
+    items = wrap.update().find('.results li')
+    expect(items).not.toExist()
   })
 
   it('clears search and auto suggestions', () => {
