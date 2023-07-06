@@ -195,6 +195,10 @@ const testComponent = (Component: React.FC<Props>) => {
 
     const items = wrap.update().find('.results li')
     expect(items).not.toExist()
+
+    expect(() => {
+      wrap.unmount()
+    }).not.toThrow()
   })
 
   it('removes a document by id', () => {
