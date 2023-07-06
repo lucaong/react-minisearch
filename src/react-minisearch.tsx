@@ -147,11 +147,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 
   useEffect(() => {
     utils.addAll(documents)
-
-    return () => {
-      utils.removeAll()
-    }
-  }, [utils, documents])
+  }, [utils]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     searchResults,
