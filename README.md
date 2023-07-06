@@ -24,6 +24,14 @@ yarn add react-minisearch
 
 There are three main ways to use `react-minisearch`: the `useMiniSearch` hook, the `withMiniSearch` higher-order component, or the `WithMiniSearch` wrapper component.
 
+All three way take the following arguments (or props for the wrapper component):
+
+  - The initial collection of documents to add to the index. Note: this is just
+    the initial collection, and mutating this argument won't cause reindexing.
+    To add or remove documents after initialization, use the functions
+    `add`/`addAll`/`remove`/`removeAll`/`discard`, etc.
+  - The `MiniSearch` configuration options
+
 #### Using the useMiniSearch hook:
 
 ```jsx
