@@ -149,7 +149,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
     utils.addAll(documents)
 
     return () => {
-      utils.removeAll(documents)
+      utils.removeAll()
     }
   }, [utils, documents])
 
