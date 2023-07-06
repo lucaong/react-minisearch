@@ -22,7 +22,7 @@ export interface UseMiniSearch<T = any> {
   miniSearch: MiniSearch<T>
 }
 
-export function useMiniSearch<T = any> (documents: T[], options: Options<T>): UseMiniSearch<T> {
+export function useMiniSearch<T = any> (documents: readonly T[], options: Options<T>): UseMiniSearch<T> {
   const optionsRef = useRef(options)
   const miniSearchRef = useRef<MiniSearch<T>>(new MiniSearch<T>(options))
   const documentByIdRef = useRef<{ [key: string]: T }>({})
@@ -147,11 +147,7 @@ export function useMiniSearch<T = any> (documents: T[], options: Options<T>): Us
 
   useEffect(() => {
     utils.addAll(documents)
-
-    return () => {
-      utils.removeAll(documents)
-    }
-  }, [utils, documents])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     searchResults,
