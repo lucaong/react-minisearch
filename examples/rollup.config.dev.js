@@ -9,7 +9,8 @@ export default {
   input: './src/index.js',
   plugins: [
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
+      preventAssignment: true
     }),
     resolve({ extensions: ['.js', '.jsx'] }),
     babel({
