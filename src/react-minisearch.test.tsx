@@ -97,6 +97,9 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
       <button className='clear' onClick={() => { clearSearch(); clearSuggestions() }}>
         Clear
       </button>
+      <button className='wildcard-search' onClick={() => search(MiniSearch.wildcard)}>
+        Wildcard search
+      </button>
     </div>
   )
 }
@@ -123,6 +126,21 @@ const testComponent = (Component: React.FC<Props>) => {
     wrap.find('input.search').simulate('change', { target: { value: 'xyz' } })
     expect(wrap.find('.results li')).not.toExist()
     expect(wrap.find('ChildComponent').prop('rawResults')).toHaveLength(0)
+  })
+
+  it('performs a wildcard search', () => {
+    const wrap = mount(<Component {...props} />)
+    expect(wrap.find('.results li')).not.toExist()
+
+    wrap.find('button.wildcard-search').simulate('click')
+
+    const items = wrap.update().find('.results li')
+
+    expect(items).toHaveLength(documents.length)
+    expect(items.first()).toHaveText(documents[0].title)
+    expect(items.at(1)).toHaveText(documents[1].title)
+    expect(wrap.find('ChildComponent').prop('rawResults')).toHaveLength(documents.length)
+    expect(wrap.find('ChildComponent').prop('rawResults')[0]).toMatchObject({ id: documents[0].uid, terms: [] })
   })
 
   it('produces auto suggestions', () => {
