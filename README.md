@@ -108,7 +108,7 @@ const documents = [
 // See MiniSearch for documentation on options
 const miniSearchOptions = { fields: ['name'] }
 
-const MyComponentWithSearch = withSearch(documents, miniSearchOptions, MyComponent)
+const MyComponentWithSearch = withMiniSearch(documents, miniSearchOptions, MyComponent)
 ```
 
 #### Using the WithMiniSearch wrapper component:
