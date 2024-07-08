@@ -31,6 +31,6 @@
     "minisearch": "6.2.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-minisearch": "6.3.0"
+    "react-minisearch": "7.0.0"
   }
 }
