@@ -1,6 +1,6 @@
 {
   "name": "react-minisearch",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "React integration for MiniSearch",
   "main": "dist/react-minisearch.js",
   "repository": "https://github.com/lucaong/react-minisearch",
