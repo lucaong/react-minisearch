@@ -4,6 +4,11 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v7.1.1
+
+  - Publish separate ES module, CJS, and UMD builds
+  - [fix] Fix issue with MiniSearch.wildcard (see https://github.com/lucaong/react-minisearch/issues/42)
+
 ## v7.1.0
 
   - Support for MiniSearch `v7.1.0`
