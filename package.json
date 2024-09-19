@@ -2,7 +2,17 @@
   "name": "react-minisearch",
   "version": "7.1.0",
   "description": "React integration for MiniSearch",
-  "main": "dist/react-minisearch.js",
+  "main": "dist/umd/react-minisearch.js",
+  "module": "dist/esm/react-minisearch.js",
+  "es2015": "dist/esm/react-minisearch.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/react-minisearch.cjs",
+      "import": "./dist/esm/react-minisearch.js",
+      "default": "./dist/esm/react-minisearch.js"
+    }
+  },
   "repository": "https://github.com/lucaong/react-minisearch",
   "author": "Luca Ongaro",
   "license": "MIT",

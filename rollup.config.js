@@ -11,15 +11,27 @@ export default {
     commonjs(),
     typescript()
   ],
-  output: {
-    name: 'react-minisearch',
-    dir: './dist',
-    format: 'umd',
-    sourcemap: true,
-    exports: 'named',
-    globals: {
-      react: 'React',
-      minisearch: 'MiniSearch'
+  output: [
+    {
+      name: 'react-minisearch',
+      file: './dist/umd/react-minisearch.js',
+      format: 'umd',
+      sourcemap: true,
+      exports: 'named',
+      globals: {
+        react: 'React',
+        minisearch: 'MiniSearch'
+      }
+    },
+    {
+      file: './dist/esm/react-minisearch.js',
+      format: 'es',
+      sourcemap: true
+    },
+    {
+      file: './dist/cjs/react-minisearch.cjs',
+      format: 'cjs',
+      sourcemap: true
     }
-  }
+  ]
 }
