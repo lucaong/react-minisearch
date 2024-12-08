@@ -189,6 +189,9 @@ for all three ways (`useMiniSearch`, `withMiniSearch`, or `WithMiniSearch`):
   - `addAllAsync(documents: T[], options?: object) => Promise<void>`: same as
     `addAll`, but works asynchronously and in batches to avoid blocking the UI
 
+  - `getById(id: any) => T | null`: function to retrieve a document from the index
+    by its ID
+
   - `remove(document: T) => void`: function to remove a document from the index
 
   - `removeById(id: any) => void`: function to remove a document from the index
