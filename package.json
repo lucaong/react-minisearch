@@ -1,8 +1,19 @@
 {
   "name": "react-minisearch",
-  "version": "7.0.0",
+  "version": "7.1.1",
   "description": "React integration for MiniSearch",
-  "main": "dist/react-minisearch.js",
+  "main": "dist/umd/react-minisearch.js",
+  "module": "dist/esm/react-minisearch.js",
+  "es2015": "dist/esm/react-minisearch.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/react-minisearch.cjs",
+      "import": "./dist/esm/react-minisearch.js",
+      "default": "./dist/esm/react-minisearch.js"
+    }
+  },
+  "types": "./dist/esm/react-minisearch.d.ts",
   "repository": "https://github.com/lucaong/react-minisearch",
   "author": "Luca Ongaro",
   "license": "MIT",
@@ -38,6 +49,7 @@
     "react-dom": "^17.0.0",
     "rollup": "^2.26.9",
     "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-dts": "^6.1.0",
     "ts-jest": "^26.3.0",
     "tslib": "^2.0.1",
     "typescript": "^4.0.2"
@@ -54,7 +66,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "minisearch": "^7.0.0",
+    "minisearch": "^7.1.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "jest": {
@@ -77,6 +89,5 @@
     "src/**/*",
     "dist/**/*",
     "README.md"
-  ],
-  "types": "./dist/react-minisearch.d.ts"
+  ]
 }
