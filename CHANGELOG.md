@@ -4,6 +4,10 @@ The major and minor version numbers of `react-minisearch` correspond to the
 supported major and minor version of MiniSearch. The patch version increments
 with any change.
 
+## v7.1.2
+
+  - Expose `getById` function to retrieve a document by its ID (thanks [@mekodes](https://github.com/mekodes))
+
 ## v7.1.1
 
   - Publish separate ES module, CJS, and UMD builds
