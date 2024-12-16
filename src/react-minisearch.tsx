@@ -10,6 +10,7 @@ export interface UseMiniSearch<T = any> {
   add: (document: T) => void,
   addAll: (documents: readonly T[]) => void,
   addAllAsync: (documents: readonly T[], options?: { chunkSize?: number }) => Promise<void>,
+  getById: (id: any) => T | null,
   remove: (document: T) => void,
   removeById: (id: any) => void,
   removeAll: (documents?: readonly T[]) => void,
@@ -47,7 +48,7 @@ export function useMiniSearch<T = any> (documents: readonly T[], options: Option
 
     const search = (query: string, searchOptions?: SearchOptions): void => {
       const results = miniSearch.search(query, searchOptions)
-      const searchResults = results.map(({ id }) => documentById[id])
+      const searchResults = results.map(({ id }) => getById(id))
       setSearchResults(searchResults)
       setRawResults(results)
     }
@@ -78,13 +79,17 @@ export function useMiniSearch<T = any> (documents: readonly T[], options: Option
       })
     }
 
+    const getById = (id: any): T | null => {
+      return documentById[id]
+    }
+
     const remove = (document: T): void => {
       miniSearch.remove(document)
       documentByIdRef.current = removeFromMap<T>(documentById, extractField(document, idField))
     }
 
     const removeById = (id: any): void => {
-      const document = documentById[id]
+      const document = getById(id)
       if (document == null) {
         throw new Error(`react-minisearch: document with id ${id} does not exist in the index`)
       }
@@ -133,6 +138,7 @@ export function useMiniSearch<T = any> (documents: readonly T[], options: Option
       add,
       addAll,
       addAllAsync,
+      getById,
       remove,
       removeById,
       removeAll,

@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import { mount } from 'enzyme'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { act } from 'react-dom/test-utils'
 import { useMiniSearch, withMiniSearch, WithMiniSearch, UseMiniSearch } from './react-minisearch'
 import MiniSearch, { Options } from 'minisearch'
@@ -47,6 +47,7 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   add,
   addAll,
   addAllAsync,
+  getById,
   remove,
   removeById,
   removeAll,
@@ -55,6 +56,7 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
   clearSearch,
   clearSuggestions
 }) => {
+  const [docTitle, setDocTitle] = useState<string | null>(null)
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value
     autoSuggest(query)
@@ -70,6 +72,7 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
       <ul className='results'>
         { searchResults && searchResults.map((result) => <li key={result.uid}>{ result.title }</li>) }
       </ul>
+      <div className='doc-title'>{ docTitle }</div>
       <button className='add' onClick={() => add(documentToAdd)}>
         Add One
       </button>
@@ -78,6 +81,9 @@ const ChildComponent: React.FC<UseMiniSearch<DocumentType>> = ({
       </button>
       <button className='add-all-async' onClick={() => { promise = addAllAsync(documentsToAdd) } }>
         Add All Async
+      </button>
+      <button className='get-by-id' onClick={() => setDocTitle(getById(documentToAdd.uid)?.title) }>
+        Get by Id
       </button>
       <button className='remove' onClick={() => remove(documentToRemove)}>
         Remove
@@ -203,6 +209,17 @@ const testComponent = (Component: React.FC<Props>) => {
     expect(items).toHaveLength(2)
     expect(items.first()).toHaveText(documentsToAdd[0].title)
     expect(items.last()).toHaveText(documentsToAdd[1].title)
+  })
+
+  it('gets a document by id', () => {
+    const wrap = mount(<Component {...props} />)
+
+    wrap.find('button.add').simulate('click')
+    wrap.find('button.get-by-id').simulate('click')
+
+    const items = wrap.update().find('.doc-title')
+    expect(items).toHaveLength(1)
+    expect(items.first()).toHaveText(documentToAdd.title)
   })
 
   it('removes a document', () => {
